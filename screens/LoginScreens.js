@@ -1,26 +1,38 @@
 import React, {useEffect, useState} from 'react';
 
-import {KeyboardAvoidingView, StyleSheet, Text, View} from 'react-native';
+import {KeyboardAvoidingView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Button, Input, Image} from 'react-native-elements'
 import {StatusBar} from "expo-status-bar";
 import {auth} from "../firebase"
+import * as firebase from "firebase";
  const LoginScreen = ({navigation}) => {
 
-     const[email,setEmail] = useState("");
-     const[password,setPassword] = useState("");
+     const [email, setEmail] = useState("");
+     const [password, setPassword] = useState("");
 
      useEffect(() => {
+
        const unsubscribe =  auth.onAuthStateChanged((authUser) =>{
              if(authUser){
                navigation.replace("Home");
              }
          })
+        // console.log(email);
          return unsubscribe;
      },[])
-     const signIn = () =>{
 
+
+     const doSingIn = async () => {
+         try {
+             console.error(email)
+             let response = await auth.signInWithEmailAndPassword(email, password)
+             if (response && response.user) {
+                 console.log("Success ✅", "Authenticated successfully")
+             }
+         } catch (e) {
+             console.error(e)
+         }
      }
-
 
     return (
         <KeyboardAvoidingView behavior='padding' style={styles.container}>
@@ -32,29 +44,38 @@ import {auth} from "../firebase"
             style={{width:200,height:200}}
             />
 
-        {/*<Text>*/}
-        {/*  I am login screen*/}
-        {/*</Text>*/}
+
 
         <View style={styles.inputContainer}>
-          <Input
-              placeholder="Email"
-              autoFocus
-              type="email"
-              value={email}
-              onChange={text => setEmail(text)}
-          />
             <Input
-                placeholder="Password"
-                secureTextEntry
-                type="password"
-                value={password}
-                onChange={text => setPassword(text)}
+                value={email}
+                onChangeText={(value) => setEmail(value)}
+                placeholder="Email"
+                autoFocus
+                maxLength = {40}
+                multiline={true}
+                numberOfLines={1}
+
+
             />
+            //TODO to add security to password
+            <Input
+                value={password}
+                onChangeText={(value) => setPassword(value)}
+                placeholder="Password"
+                textContentType={"password"}
+                secureTextEntry
+                maxLength = {40}
+                multiline={true}
+                numberOfLines={1}
+
+
+            />
+
         </View>
             <Button
                 containerStyle={styles.button}
-                onPress={signIn}
+                onPress={doSingIn}
                 title="Login" />
             <Button
                 onPress={() => navigation.navigate('Register')}
