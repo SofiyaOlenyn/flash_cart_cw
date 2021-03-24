@@ -10,6 +10,9 @@ import LoginScreen from "./screens/LoginScreens";
 import RegisterScreen from "./screens/RegisterScreen";
 import HomeScreen from "./screens/HomeScreen"
 import * as firebase from "./firebase";
+import MyProfileScreen from "./screens/MyProfileScreen";
+import ButtomTabNavigation from "./navigation/BottomTabNavigation";
+
 const Stack = createStackNavigator();
 const globalScreenOptions = {
 
@@ -33,17 +36,24 @@ export default function App() {
             console.log(e);
         }
     }
+
   return (
       <NavigationContainer>
           <Stack.Navigator screenOptions = {globalScreenOptions}>
+
           <Stack.Screen name='Login' component={LoginScreen} />
           <Stack.Screen name='Register' component={RegisterScreen} />
-          <Stack.Screen name='Home' component={HomeScreen}
+          <Stack.Screen name='Home' component={ButtomTabNavigation}
                         options={{
                             headerRight: () => (
                                 // <MaterialCommunityIcons name = {"star-four-points-outline"} size={30} color={Colors.light.tint}/>
                                 <Ionicons name = {"ios-log-out"} onPress={signOutUser} size={30} color={"#4D9FEC"}/>
-                            ) }}
+                            )
+
+                        }
+                        }
+
+
               />
           </Stack.Navigator>
       </NavigationContainer>
