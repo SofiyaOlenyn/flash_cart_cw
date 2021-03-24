@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import {KeyboardAvoidingView, StyleSheet, Text, TextInput, View} from 'react-native';
+import {KeyboardAvoidingView, StyleSheet, View} from 'react-native';
 import {Button, Input, Image} from 'react-native-elements'
 import {StatusBar} from "expo-status-bar";
 import {auth} from "../firebase"
@@ -35,6 +35,7 @@ import * as firebase from "firebase";
      }
 
     return (
+
         <KeyboardAvoidingView behavior='padding' style={styles.container}>
             <StatusBar style = "light"/>
             <Image source = {{
@@ -47,6 +48,7 @@ import * as firebase from "firebase";
 
 
         <View style={styles.inputContainer}>
+
             <Input
                 value={email}
                 onChangeText={(value) => setEmail(value)}
@@ -55,10 +57,8 @@ import * as firebase from "firebase";
                 maxLength = {40}
                 multiline={true}
                 numberOfLines={1}
-
-
             />
-            //TODO to add security to password
+            {/*//TODO to add security to password*/}
             <Input
                 value={password}
                 onChangeText={(value) => setPassword(value)}
@@ -82,10 +82,22 @@ import * as firebase from "firebase";
                 containerStyle={styles.button}
                 type ="outline"
                 title="Register" />
+
+
+
                 <View style={{height:100}}/>
+
         </KeyboardAvoidingView>
     );
 };
+
+
+
+
+
+
+
+
 
 export default LoginScreen;
 
