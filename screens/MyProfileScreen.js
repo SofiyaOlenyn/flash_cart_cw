@@ -2,8 +2,11 @@ import React, {useLayoutEffect} from 'react';
 
 import {KeyboardAvoidingView, SafeAreaView, ScrollView, Text, View} from 'react-native';
 import {Button} from "react-native-elements";
-import CustomListItem from "../components/CustomListItem";
+
 import * as firebase from "firebase";
+import {auth} from "firebase";
+import HeaderForMyProfile from "../components/HeaderForMyProfile";
+
 
 
 const MyProfileScreen = ({navigation}) => {
@@ -18,13 +21,12 @@ const MyProfileScreen = ({navigation}) => {
             console.log(e);
         }
     }
+    const user = auth().currentUser;
+
     return (
-        <SafeAreaView>
-<Text>My profile</Text>
-            <ScrollView>
-                <CustomListItem/>
-            </ScrollView>
-        </SafeAreaView>
+       <View>
+           <HeaderForMyProfile/>
+       </View>
     );
 };
 
