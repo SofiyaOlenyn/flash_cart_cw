@@ -16,26 +16,26 @@ const NewCardScreen = ({route, navigation}) => {
 
     const addCart = async function () {
         try {
+            console.log("Cards:"+JSON.stringify(cards));
             const item = {
                 front: front,
                 back: back,
             }
             let  newCards = null;
             if(cards.length==0) {
-                newCards = item;
+                newCards = [item];
                 console.log(cards.length)
             }
             else{
 
                 newCards =
-                    //item;
-                    cards.concat(item);
 
+                    cards.concat(item);
 
             }
 
         //   console.log("Cards:"+navigation.objectValue());
-          console.log("Cards:"+JSON.stringify(newCards));
+          console.log("newCards:"+JSON.stringify(newCards));
             // console.log(newCards);
             navigation.navigate("NewDeck",{
                 newCard :newCards,

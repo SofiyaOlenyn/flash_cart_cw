@@ -10,7 +10,7 @@ import globalColors from "../App"
 import NewCardScreen from "../screens/NewCardScreen";
 const Tab = createMaterialBottomTabNavigator();
 
-const BottomTabNavigation = ({navigation}) => {
+const BottomTabNavigation = ({navigation}, newCard = newCard) => {
 
     return (
 
@@ -35,7 +35,10 @@ const BottomTabNavigation = ({navigation}) => {
             <Tab.Screen
                 name="NewDeck"
                 component={NewDeckScreen}
-                options={{
+                initialParams={ (newCard:[])}
+                options={
+                    {
+
                     tabBarLabel: 'Add',
                     tabBarIcon: ({ color }) => (
                         <MaterialCommunityIcons name={"file-plus-outline"} size={26} color={color}/>

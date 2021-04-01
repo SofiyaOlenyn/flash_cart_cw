@@ -17,15 +17,17 @@ import Card from "../components/Card";
 import {db} from "../firebase";
 import {auth} from "../firebase"
 
-const NewDeckScreen = ({newCard,navigation}) => {
+const NewDeckScreen = ({route,navigation}) => {
 
 
     const [i, setI] = useState(0);
     const [deckName, setDeckName] = useState("");
     const [isSelected, setSelection] = useState(false);
-    const[cards,setCards] = useState([]);
-    const[cardsDemo,setCardsDemo] = useState([]);
+
+    const {newCard} = route.params;
+  //  const newCard = null;
     const [loading,setLoading] = useState(false);
+
     const item = {
         front: "IT IS FRONT",
             back:"IT IS BACK SIZE"
@@ -45,15 +47,28 @@ const NewDeckScreen = ({newCard,navigation}) => {
 
     const openNewCardScreen = async function () {
 
+
         if(deckName){
 
         try {
 
-           // setCards(item)
-            console.log(cards)
+
+            // if(newCard) {
+            //     setOurCards(array)
+            // }
+            //
+            //  console.log("Q!!!!!!!:"+array);
+            // console.log("CardsDeckScreen:"+cards);
+           if(newCard==null){
+               navigation.navigate("NewCard",{
+                   cards:[],
+               });
+           }
+           else{
             navigation.navigate("NewCard",{
-                cards:cards,
+                cards:newCard,
             });
+           }
         } catch (e) {
             console.log(e);
         }
@@ -62,13 +77,13 @@ const NewDeckScreen = ({newCard,navigation}) => {
     }
     const createDeck = async function () {
 
-
+        console.log(newCard)
        if(deckName) {
            db.collection("decks").doc( deckName.toString() ).set({
                name: deckName,
                user_id: auth.currentUser.uid,
                visible: isSelected,
-               cards: cards,
+               cards: newCard,
            })
                .then(() => {
                    console.log("Document successfully written!");
@@ -78,19 +93,22 @@ const NewDeckScreen = ({newCard,navigation}) => {
                    console.error("Error writing document: ", error);
                });
 
+
        }
+        setDeckName("");
 
 
     }
     const fetchTweets = async () => {
         setLoading(true);
-        if(newCard){
-            setCards(newCard)
-        }
+        // if(newCard){
+        //     setCards(newCard)
+        // }
 
 
     }
     useEffect(() => {
+
         setI(i)
         fetchTweets().then(() =>{});
 
@@ -134,15 +152,15 @@ const NewDeckScreen = ({newCard,navigation}) => {
            {/*<Card/>*/}
            {/*<Card/>*/}
            {/*     <Card card={item}/>*/}
-           {/*     <FlatList*/}
+                <FlatList
 
 
-           {/*          data={cards}*/}
-           {/*          renderItem={({item}) => <Card card={item}/>}*/}
-           {/*         // keyExtractor={(item) => item}*/}
-           {/*          refreshing={loading}*/}
-           {/*          onRefresh={fetchTweets}*/}
-           {/*     />*/}
+                     data={newCard}
+                     renderItem={({item}) => <Card card={item}/>}
+                    // keyExtractor={(item) => item}
+                     refreshing={loading}
+                     onRefresh={fetchTweets}
+                />
                 <TouchableOpacity
                     style={styles.buttonAdd}
                      onPress={() => openNewCardScreen()}

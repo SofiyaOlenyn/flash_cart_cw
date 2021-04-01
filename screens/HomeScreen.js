@@ -53,7 +53,7 @@ const HomeScreen = ({navigation}) => {
     return (
         <SafeAreaView>
 
-            <Button title="My profile" onPress={() => changePr()} />
+       {/*     <Button title="My profile" onPress={() => changePr()} />*/}
        <ScrollView>
  <CustomListItem/>
         </ScrollView>
