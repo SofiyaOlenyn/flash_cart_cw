@@ -18,13 +18,15 @@ import {db} from "../firebase";
 import {auth} from "../firebase"
 
 const NewDeckScreen = ({route,navigation}) => {
-
+    //TODO коли нажимаєш на карточку  у флейт листі було едіт її
 
     const [i, setI] = useState(0);
     const [deckName, setDeckName] = useState("");
     const [isSelected, setSelection] = useState(false);
+    const [ourCards, setOurCards] = useState([]);
 
-    const {newCard} = route.params;
+    let {newCard} = route.params;
+
   //  const newCard = null;
     const [loading,setLoading] = useState(false);
 
@@ -52,27 +54,40 @@ const NewDeckScreen = ({route,navigation}) => {
 
         try {
 
-
             // if(newCard) {
-            //     setOurCards(array)
+            //     setOurCards(newCard)
             // }
-            //
-            //  console.log("Q!!!!!!!:"+array);
-            // console.log("CardsDeckScreen:"+cards);
+
+
+             // console.log("Q!!!!!!!:"+array);
+            console.log("CardsDeckScreen:"+ourCards);
+
+
            if(newCard==null){
+
                navigation.navigate("NewCard",{
                    cards:[],
                });
            }
            else{
+               if(i==1){
+
+                   navigation.navigate("NewCard",{
+                       cards:ourCards,
+                   });
+               }else{
+               setOurCards(newCard)
             navigation.navigate("NewCard",{
-                cards:newCard,
-            });
+                cards:ourCards,
+            });}
            }
         } catch (e) {
             console.log(e);
+        }finally {
+            setI(0);
         }
         }
+
         //TODO if deckName is empty alarm
     }
     const createDeck = async function () {
@@ -96,20 +111,31 @@ const NewDeckScreen = ({route,navigation}) => {
 
        }
         setDeckName("");
-
+        setI(1);
+        setOurCards([]);
+        console.log("route.params  "+route.params.toString());
+        console.log("newCard  "+newCard.toString());
 
     }
     const fetchTweets = async () => {
-        setLoading(true);
-        // if(newCard){
-        //     setCards(newCard)
-        // }
+         setLoading(true);
+          if(i==0) {
+              setOurCards(newCard)
+          }
 
+
+        setLoading(false);
+      //  route.setParams({newCard: []});
 
     }
     useEffect(() => {
+      console.log("xd;v,d;,vlf,vlv")
 
-        setI(i)
+        if(newCard)
+        {
+            setOurCards(newCard)
+        }
+
         fetchTweets().then(() =>{});
 
     },[])
@@ -148,27 +174,29 @@ const NewDeckScreen = ({route,navigation}) => {
             </SafeAreaView>
 
 
-            <ScrollView  >
+
            {/*<Card/>*/}
            {/*<Card/>*/}
            {/*     <Card card={item}/>*/}
-                <FlatList
 
 
-                     data={newCard}
-                     renderItem={({item}) => <Card card={item}/>}
-                    // keyExtractor={(item) => item}
-                     refreshing={loading}
-                     onRefresh={fetchTweets}
-                />
-                <TouchableOpacity
-                    style={styles.buttonAdd}
-                     onPress={() => openNewCardScreen()}
-                >
-                    <Text  style={styles.text}> Add </Text>
 
-                </TouchableOpacity>
-            </ScrollView>
+            <TouchableOpacity
+                style={styles.buttonAdd}
+                onPress={() => openNewCardScreen()}
+            >
+                <Text  style={styles.text}> Add </Text>
+
+            </TouchableOpacity>
+            <FlatList
+
+
+                data={ourCards}
+                renderItem={({item}) => <Card card={item}/>}
+                // keyExtractor={(item) => item}
+                refreshing={loading}
+                onRefresh={fetchTweets}
+            />
         </SafeAreaView>
     );
 };
