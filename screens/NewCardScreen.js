@@ -67,8 +67,8 @@ const NewCardScreen = ({route, navigation}) => {
                 value={back}
                 onChangeText={(value) => setBack(value)}
                 placeholder="Definition"
-                autoFocus
-                maxLength = {40}
+
+                maxLength = {300}
                 multiline={true}
                 numberOfLines={1}
             />

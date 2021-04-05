@@ -17,7 +17,7 @@ const Card = ({ card }) => {
      <View style={styles.container}>
 
 
-         <Text>{card.front}</Text>
+         <Text style={styles.frontText}> {card.front}</Text>
          <Separator />
          {/*<Text>-----------------------------------------------------------</Text>*/}
          <Text>{card.back} </Text>
@@ -30,7 +30,12 @@ const Card = ({ card }) => {
 export default Card;
 
 const styles = StyleSheet.create({
+    frontText:{
 
+        fontWeight: "bold",
+        marginHorizontal: 20,
+        marginBottom:7,
+    },
         container:{
             flex:1,
             // alignItems:"center",
@@ -39,6 +44,7 @@ const styles = StyleSheet.create({
             borderRadius: 35,
             backgroundColor:"#A3C6C4",
             margin:5,
+            height:130,
 
 
         },

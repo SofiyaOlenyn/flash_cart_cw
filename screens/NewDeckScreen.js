@@ -24,62 +24,31 @@ const NewDeckScreen = ({route,navigation}) => {
     const [deckName, setDeckName] = useState("");
     const [isSelected, setSelection] = useState(false);
     const [ourCards, setOurCards] = useState([]);
-
     let {newCard} = route.params;
-
-  //  const newCard = null;
     const [loading,setLoading] = useState(false);
 
-    const item = {
-        front: "IT IS FRONT",
-            back:"IT IS BACK SIZE"
-    }
-
-    const array = [
-        {
-            front: "IT IS FRONT",
-            back:"IT IS BACK SIZE"
-        },
-        {
-            front: "IT IS FRONT1",
-            back:"IT IS BACK SIZE1"
-        }
-
-    ]
-
     const openNewCardScreen = async function () {
-
-
         if(deckName){
-
         try {
-
-            // if(newCard) {
-            //     setOurCards(newCard)
-            // }
-
-
-             // console.log("Q!!!!!!!:"+array);
             console.log("CardsDeckScreen:"+ourCards);
-
-
            if(newCard==null){
-
                navigation.navigate("NewCard",{
                    cards:[],
                });
            }
            else{
                if(i==1){
-
                    navigation.navigate("NewCard",{
                        cards:ourCards,
                    });
-               }else{
-               setOurCards(newCard)
-            navigation.navigate("NewCard",{
-                cards:ourCards,
-            });}
+               }
+               else
+                   {
+                     setOurCards(newCard)
+                       navigation.navigate("NewCard",{
+                       cards:ourCards,
+                        });
+                   }
            }
         } catch (e) {
             console.log(e);
@@ -113,9 +82,17 @@ const NewDeckScreen = ({route,navigation}) => {
         setDeckName("");
         setI(1);
         setOurCards([]);
+        setSelection(false);
         console.log("route.params  "+route.params.toString());
         console.log("newCard  "+newCard.toString());
 
+    }
+
+    const reset = async () => {
+        setDeckName("");
+        setI(1);
+        setSelection(false);
+        setOurCards([]);
     }
     const fetchTweets = async () => {
          setLoading(true);
@@ -164,14 +141,27 @@ const NewDeckScreen = ({route,navigation}) => {
                     onPress={() => setSelection(!isSelected)}
                 />
                 <Text style={styles.text}>Make visible for other</Text>
-                <TouchableOpacity
-                    style={styles.buttonCreate}
-                     onPress={() => createDeck()}
-                >
-                    <Text  style={styles.text}> Create </Text>
 
-                </TouchableOpacity>
             </SafeAreaView>
+
+                <SafeAreaView style={styles.containerButtons}>
+
+                    <TouchableOpacity
+                        style={styles.buttonCreate}
+                        onPress={() => createDeck()}
+                    >
+                        <Text  style={styles.text}> Create </Text>
+
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.buttonCreate}
+                        onPress={() => reset()}
+                    >
+                        <Text  style={styles.text}> Reset </Text>
+
+                    </TouchableOpacity>
+
+                </SafeAreaView>
 
 
 
@@ -190,12 +180,12 @@ const NewDeckScreen = ({route,navigation}) => {
             </TouchableOpacity>
             <FlatList
 
-
                 data={ourCards}
                 renderItem={({item}) => <Card card={item}/>}
-                // keyExtractor={(item) => item}
+                keyExtractor={(item) => item.front}
                 refreshing={loading}
                 onRefresh={fetchTweets}
+
             />
         </SafeAreaView>
     );
@@ -204,6 +194,11 @@ const NewDeckScreen = ({route,navigation}) => {
 export default NewDeckScreen;
 
 const styles = StyleSheet.create({
+    containerButtons:{
+        flexDirection: 'row',
+
+    }
+    ,
         container:{
             flex:1,
             // alignItems:"center",
@@ -218,7 +213,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
 
         fontSize: 20,
-        fontWeight: "bold",
+
         // width: 150,
         margin: 15,
         height:50,
@@ -232,7 +227,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginLeft: 10,
-        width: 150,
+        width: 192,
         // marginTop: 30,
         height:50,
         borderRadius: 20,
@@ -251,6 +246,7 @@ const styles = StyleSheet.create({
         margin: 15,
     },
     text:{
+        fontWeight: "bold",
         margin: 15,
     },
         inputContainer:{
