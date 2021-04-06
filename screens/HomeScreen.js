@@ -35,42 +35,6 @@ const HomeScreen = ({navigation}) => {
     const [loading,setLoading] = useState(false)
 
 
-    const deck = {
-    cards: [
-        {
-            back:
-            "Yeees",
-            front:
-            "lifeIsGood"
-        },
-        {
-            back:
-                "Yeees",
-            front:
-                "lifeIsGood"
-        },],
-    name: "MyFirstDeck",
-    user_id: "uyblhuqbcNSpvliYR8kcnNwGuW82",
-    visible: true
-}
-    const array  = [deck,deck]
-    const changePr = async function () {
-        let docRef = db.collection("cards").doc("LA");
-        let d=[];
-        docRef.get().then((doc) => {
-            if (doc.exists) {
-
-                console.log("Document data:", doc.data().cards);
-            } else {
-                // doc.data() will be undefined in this case
-                console.log("No such document!");
-            }
-        }).catch((error) => {
-            console.log("Error getting document:", error);
-        });
-
-
-    }
     const fetchDecks = async () => {
         setLoading(true);
 
@@ -85,10 +49,10 @@ const HomeScreen = ({navigation}) => {
                         // doc.data() is never undefined for query doc snapshots
                       // console.log(doc.id, " => ", doc.data());
                         results.push(doc.data())
-                        console.log("results"+results);
+                       // console.log("results"+results);
                     });
                     setDecks(results);
-                    console.log("decks"+decks);
+
                 })
                 .catch((error) => {
                     console.log("Error getting documents: ", error);

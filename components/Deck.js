@@ -4,12 +4,18 @@ import {SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View} from
 
 import {ListItem, Avatar, Input} from "react-native-elements";
 import Divider from "react-native-paper";
+import {useNavigation} from "@react-navigation/core";
 
-const Deck = ({ deck,navigation}) => {
+const Deck = ({ deck}) => {
 
+    const navigation = useNavigation();
 
     const openDeckScreen = async function () {
 
+      //  navigation.jumpTo('MyDeck');
+        navigation.navigate("MyDeck",{
+            deck:deck,
+        });
     }
 
     return (
@@ -23,7 +29,7 @@ const Deck = ({ deck,navigation}) => {
 
             <Text style={styles.frontText}>{deck.name}</Text>
             <Text style={styles.text}>
-                {/*{deck.cards.length}*/}
+                {/*{deck.cards.length} */}
                 cards</Text>
             </TouchableOpacity>
 

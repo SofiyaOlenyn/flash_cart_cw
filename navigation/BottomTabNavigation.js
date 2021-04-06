@@ -8,6 +8,8 @@ import NewDeckScreen from "../screens/NewDeckScreen";
 import SearchScreen from "../screens/SearchScreen";
 import globalColors from "../App"
 import NewCardScreen from "../screens/NewCardScreen";
+import MyDeckScreen from "../screens/MyDeckScreen";
+import {Screen} from "expo";
 const Tab = createMaterialBottomTabNavigator();
 
 const BottomTabNavigation = ({navigation}, newCard = newCard) => {
@@ -19,6 +21,7 @@ const BottomTabNavigation = ({navigation}, newCard = newCard) => {
             activeColor="#E5E5E5"
             barStyle={{ backgroundColor: "#354649" }}
         >
+
 
             <Tab.Screen
                 name="Feed"
@@ -67,6 +70,7 @@ const BottomTabNavigation = ({navigation}, newCard = newCard) => {
                     ),
                 }}
             />
+
         </Tab.Navigator>
     );
 }

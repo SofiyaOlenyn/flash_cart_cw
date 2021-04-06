@@ -13,6 +13,7 @@ import * as firebase from "./firebase";
 import MyProfileScreen from "./screens/MyProfileScreen";
 import BottomTabNavigation from "./navigation/BottomTabNavigation";
 import NewCardScreen from "./screens/NewCardScreen";
+import MyDeckScreen from "./screens/MyDeckScreen";
 
 const Stack = createStackNavigator();
 
@@ -78,6 +79,7 @@ export default function App() {
 
               />
               <Stack.Screen  name='NewCard' component={NewCardScreen}/>
+              <Stack.Screen  name='MyDeck' component={MyDeckScreen}/>
           </Stack.Navigator>
       </NavigationContainer>
 
