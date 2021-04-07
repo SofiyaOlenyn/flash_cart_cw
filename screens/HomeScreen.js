@@ -37,7 +37,7 @@ const HomeScreen = ({navigation}) => {
 
     const fetchDecks = async () => {
         setLoading(true);
-
+       console.error("User   "+ JSON.stringify(auth.currentUser));
         const currentUser = auth.currentUser.uid;
         try {
 
@@ -67,7 +67,7 @@ const HomeScreen = ({navigation}) => {
         }
     }
     useEffect(() =>{
-        fetchDecks();
+        fetchDecks().then(r => {});
     },[])
 
 
@@ -77,7 +77,7 @@ const HomeScreen = ({navigation}) => {
 
                 <TouchableOpacity
                     style={styles.buttonCreate}
-                    // onPress={() => createDeck()}
+                    onPress={() => fetchDecks()}
                 >
                     <Text  style={styles.text}> My decks </Text>
 

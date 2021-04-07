@@ -20,7 +20,7 @@ const RegisterScreen = ({navigation}) => {
             .then(authUser => {
                 authUser.user.updateProfile({
                     displayName: name,
-                    photoURL: imageUrl || "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADgCAMAAADCMfHtAAAAY1BMVEX"
+                    photoURL: imageUrl || "https://cdn.iconscout.com/icon/free/png-256/user-1648810-1401302.png"
                 }).then(r => {})
             })
             .catch(error => alert(error.message))

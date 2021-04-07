@@ -20,6 +20,7 @@ const NewCardScreen = ({route, navigation}) => {
             const item = {
                 front: front,
                 back: back,
+                learned:null,
             }
             let  newCards = null;
             if(cards== null || cards.length==0) {
