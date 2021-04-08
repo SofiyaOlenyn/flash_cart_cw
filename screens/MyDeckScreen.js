@@ -60,12 +60,16 @@ const MyDeckScreen = ({route, navigation}) => {
     }
 
     const deleteDeck = async () => {
-        const newDeckName = deck.name.toString() + "_" + auth.currentUser.uid;
-        db.collection("decks").doc(newDeckName).delete().then(() => {
-            console.log("Document successfully deleted!");
-        }).catch((error) => {
-            console.error("Error removing document: ", error);
+        let query = db.collection('decks')
+            .where('name','==',deck.name.toString())
+            .where('user_id','==',auth.currentUser.uid);
+
+        query.get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                doc.ref.delete();
+            });
         });
+
         setModalVisible(false)
         navigation.navigate("Home");
 
