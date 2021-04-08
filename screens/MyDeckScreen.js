@@ -1,17 +1,16 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
     FlatList,
-    KeyboardAvoidingView, Modal, Pressable,
+    Modal,
+    Pressable,
     SafeAreaView,
-    ScrollView,
     StyleSheet,
     Text,
     TouchableOpacity,
     View
 } from 'react-native';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import CardAdd from "../components/CardAdd";
 import CardInDeck from "../components/CardInDeck";
 import {alert} from "react-native-web";
 import {auth, db} from "../firebase";
@@ -31,28 +30,36 @@ const MyDeckScreen = ({route, navigation}) => {
         setLoading(false);
     }
     useEffect(() => {
-
         if (deck) {
             setDeckName(deck.name)
             setDeckP(deck)
             setCards(deck.cards)
         }
     }, [])
+
     const editDeck = async () => {
-        navigation.navigate("EditDeck",{
-            deck:deck,
+        navigation.navigate("EditDeck", {
+            deck: deck,
         });
     }
+
+    const practiceDeck = async () => {
+        navigation.navigate("PracticeCard", {
+            deck: deck,
+        });
+    }
+
     const addDeck = async () => {
-        navigation.navigate("NewCardToExistingDeck",{
-            deck:deck,
+        navigation.navigate("NewCardToExistingDeck", {
+            deck: deck,
         });
     }
+
     const openDeleteModal = async () => {
         setModalVisible(true)
     }
-    const deleteDeck= async () => {
 
+    const deleteDeck = async () => {
         const newDeckName = deck.name.toString() + "_" + auth.currentUser.uid;
         db.collection("decks").doc(newDeckName).delete().then(() => {
             console.log("Document successfully deleted!");
@@ -65,8 +72,6 @@ const MyDeckScreen = ({route, navigation}) => {
     }
     return (
         <SafeAreaView style={styles.container}>
-
-
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -79,7 +84,7 @@ const MyDeckScreen = ({route, navigation}) => {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
 
-                            <Text style={styles.modalText}>Do u really wanna delete deck?</Text>
+                        <Text style={styles.modalText}>Do u really wanna delete deck?</Text>
                         <View style={styles.modalViewAnswers}>
                             <Pressable
                                 style={[styles.buttonModals, styles.buttonClose]}
@@ -97,33 +102,25 @@ const MyDeckScreen = ({route, navigation}) => {
                     </View>
                 </View>
             </Modal>
-            <Text style={styles.deckname}>{deckName}</Text>
-
-
+            <Text style={styles.deckName}>{deckName}</Text>
             <SafeAreaView style={styles.containerEditButtons}>
-
                 <TouchableOpacity
                     style={styles.buttonsEdit}
                     onPress={editDeck}
                 >
                     <MaterialCommunityIcons name="grease-pencil" color={"#354649"} size={25}/>
-
-
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.buttonsEdit}
                     onPress={() => openDeleteModal()}
                 >
                     <MaterialCommunityIcons name="delete" color={"#354649"} size={25}/>
-
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.buttonsEdit}
-                      onPress={addDeck}
+                    onPress={addDeck}
                 >
-
                     <MaterialCommunityIcons name="plus-box" color={"#354649"} size={25}/>
-
                 </TouchableOpacity>
 
             </SafeAreaView>
@@ -135,8 +132,6 @@ const MyDeckScreen = ({route, navigation}) => {
                     //onPress={() => createDeck()}
                 >
                     <Text>All()</Text>
-
-
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.buttonsEdit}
@@ -158,9 +153,9 @@ const MyDeckScreen = ({route, navigation}) => {
 
             <TouchableOpacity
                 style={styles.buttonAdd}
-                // onPress={() => openNewCardScreen()}
+                onPress={() => practiceDeck()}
             >
-                <Text style={styles.text}> Practise all </Text>
+                <Text style={styles.text}> Practice all </Text>
 
             </TouchableOpacity>
 
@@ -184,10 +179,8 @@ const styles = StyleSheet.create({
             flexDirection: 'row',
             alignSelf: 'flex-end',
             marginRight: 13,
-
-
-        }
-        , modalText: {
+        },
+        modalText: {
             marginBottom: 15,
             textAlign: "center"
         },
@@ -198,7 +191,6 @@ const styles = StyleSheet.create({
             marginTop: 22
         },
         modalView: {
-
             margin: 20,
             backgroundColor: "white",
             borderRadius: 20,
@@ -221,20 +213,13 @@ const styles = StyleSheet.create({
             marginHorizontal: 8,
             padding: 10,
             elevation: 2,
-            backgroundColor: "#F194FF",
-        },
-        buttonOpen: {
-            backgroundColor: "#F194FF",
-        },
-        buttonClose: {
-            backgroundColor: "#2196F3",
+            backgroundColor: "#A3C6C4",
         },
         containerProgress: {
             flexDirection: 'row',
             marginTop: 15,
             marginLeft: 19,
         },
-
         container: {
             flex: 1,
             padding: 10,
@@ -265,27 +250,23 @@ const styles = StyleSheet.create({
             justifyContent: 'center',
             marginLeft: 10,
             width: 192,
-            // marginTop: 30,
             height: 50,
             borderRadius: 20,
             backgroundColor: "#6C7A89",
-            // borderBottomColor:"#49559f",
         },
         checkboxContainer: {
             flexDirection: 'row',
-            // marginLeft: 15,
         },
         checkbox: {
 
             marginLeft: 15,
         },
-        deckname: {
+        deckName: {
             fontSize: 27,
             fontWeight: "bold",
             marginHorizontal: 25,
             marginTop: 13,
             alignItems: 'center',
-
         },
         text: {
             fontWeight: "bold",

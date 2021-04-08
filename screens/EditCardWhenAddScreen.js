@@ -1,63 +1,63 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Input} from "react-native-elements";
 
-import {SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-
-import {ListItem, Avatar, Input} from "react-native-elements";
 const EditCardWhenAddScreen = ({route, navigation}) => {
-    const { card} = route.params;
+
+    const {card} = route.params;
+    const {cards} = route.params;
     const [front, setFront] = useState("");
     const [back, setBack] = useState("");
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackTitle:"Go back",
+            headerBackTitle: "Go back",
         })
-    },[navigation])
+    }, [navigation])
 
-    useEffect(() =>{
+    useEffect(() => {
         console.log(JSON.stringify(card))
         setFront(card.front)
         setBack(card.back)
-    },[])
+    }, [])
 
-    // const addCart = async function () {
-    //     try {
-    //         //newCard console.log("Cards:"+JSON.stringify(cards));
-    //         const item = {
-    //             front: front,
-    //             back: back,
-    //             learned:null,
-    //         }
-    //         let  newCards = null;
-    //         if(cards== null || cards.length==0) {
-    //             newCards = [item];
-    //             console.log(cards.length)
-    //         }
-    //         else{
-    //
-    //             newCards =
-    //
-    //                 cards.concat(item);
-    //
-    //         }
-    //
-    //         //   console.log("Cards:"+navigation.objectValue());
-    //         //  console.log("newCards:"+JSON.stringify(newCards));
-    //         // console.log(newCards);
-    //         navigation.navigate("NewDeck",{
-    //             newCard :newCards,
-    //         });
-    //
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }
+    const editCard = async function () {
+        const newCard = {
+            front: front,
+            back: back,
+            learned: card.learned
+        }
+        if (cards.length == 1) {
+            navigation.navigate("NewDeck", {
+                newCard: [newCard],
+            });
+        } else {
+            let i = cards.indexOf(card)
+            cards.splice(i, 1)
+            cards.splice(i, 0, newCard)
+            navigation.navigate("NewDeck", {
+                newCard: cards,
+            });
+        }
+    }
+    const deleteCard = async function () {
+
+        if (cards.length == 1) {
+            navigation.navigate("NewDeck", {
+                newCard: [],
+            });
+        } else {
+            let i = cards.indexOf(card)
+            cards.splice(i, 1)
+            navigation.navigate("NewDeck", {
+                newCard: cards,
+            });
+        }
+    }
 
     return (
 
-        <View
-            //style={styles.container}
-        >
+        <View>
             <View
                 style={styles.containerInput}
             >
@@ -66,7 +66,7 @@ const EditCardWhenAddScreen = ({route, navigation}) => {
                     onChangeText={(value) => setFront(value)}
                     placeholder="Term"
                     autoFocus
-                    maxLength = {30}
+                    maxLength={30}
                     multiline={true}
                     numberOfLines={1}
                 />
@@ -75,19 +75,26 @@ const EditCardWhenAddScreen = ({route, navigation}) => {
                     onChangeText={(value) => setBack(value)}
                     placeholder="Definition"
 
-                    maxLength = {300}
+                    maxLength={300}
                     multiline={true}
                     numberOfLines={1}
                 />
 
             </View>
-            {/*<TouchableOpacity*/}
-            {/*    style={styles.buttonAdd}*/}
-            {/*    onPress={() => addCart() }*/}
-            {/*>*/}
-            {/*    <Text  style={styles.text}>Add cart</Text>*/}
+            <TouchableOpacity
+                style={styles.buttonAdd}
+                onPress={() => editCard()}
+            >
+                <Text style={styles.text}>Edit</Text>
 
-            {/*</TouchableOpacity>*/}
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.buttonAdd}
+                onPress={() => deleteCard()}
+            >
+                <Text style={styles.text}>Delete</Text>
+
+            </TouchableOpacity>
         </View>
     );
 };
@@ -95,7 +102,7 @@ const EditCardWhenAddScreen = ({route, navigation}) => {
 export default EditCardWhenAddScreen;
 
 const styles = StyleSheet.create({
-        buttonAdd:{
+        buttonAdd: {
             alignContent: "center",
             alignItems: 'center',
             justifyContent: 'center',
@@ -105,34 +112,20 @@ const styles = StyleSheet.create({
             marginLeft: 60,
             width: 300,
             marginTop: 30,
-            height:36,
+            height: 36,
             borderRadius: 100,
-            backgroundColor:"#6C7A89",
+            backgroundColor: "#6C7A89",
         },
-        containerInput:{
-            marginTop:200,
-            padding:10,
+        containerInput: {
+            marginTop: 200,
+            padding: 10,
             borderRadius: 35,
-            backgroundColor:"#A3C6C4",
-            margin:5,
-
-
-        },
-        container:{
-            flex:1,
-            padding:10,
-            borderRadius: 35,
-            backgroundColor:"#A3C6C4",
-            margin:5,
-            height:50,
+            backgroundColor: "#A3C6C4",
+            margin: 5,
 
         },
-        inputContainer:{
-            width: 300,
-        },
-        text:{
+        text: {
             fontSize: 20,
-            // fontWeight: "bold",
         }
 
     }

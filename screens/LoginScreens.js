@@ -1,25 +1,22 @@
 import React, {useEffect, useState} from 'react';
-
 import {KeyboardAvoidingView, StyleSheet, View} from 'react-native';
 import {Button, Input, Image} from 'react-native-elements'
 import {StatusBar} from "expo-status-bar";
 import {auth} from "../firebase"
-import * as firebase from "firebase";
+
 const LoginScreen = ({navigation}) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     useEffect(() => {
-
-        const unsubscribe =  auth.onAuthStateChanged((authUser) =>{
-            if(authUser){
+        const unsubscribe = auth.onAuthStateChanged((authUser) => {
+            if (authUser) {
                 navigation.replace("Home");
             }
         })
-        // console.log(email);
         return unsubscribe;
-    },[])
+    }, [])
 
 
     const doSingIn = async () => {
@@ -37,14 +34,13 @@ const LoginScreen = ({navigation}) => {
     return (
 
         <KeyboardAvoidingView behavior='padding' style={styles.container}>
-            <StatusBar style = "light"/>
-            <Image source = {{
+            <StatusBar style="light"/>
+            <Image source={{
                 uri: "https://images-na.ssl-images-amazon.com/images/I/713Sa%2BKDnsL.png",
 
             }}
-                   style={{width:200,height:200}}
+                   style={{width: 200, height: 200}}
             />
-
 
 
             <View style={styles.inputContainer}>
@@ -54,7 +50,7 @@ const LoginScreen = ({navigation}) => {
                     onChangeText={(value) => setEmail(value)}
                     placeholder="Email"
                     autoFocus
-                    maxLength = {40}
+                    maxLength={40}
                     multiline={true}
                     numberOfLines={1}
                 />
@@ -65,7 +61,7 @@ const LoginScreen = ({navigation}) => {
                     placeholder="Password"
                     textContentType={"password"}
                     secureTextEntry
-                    maxLength = {40}
+                    maxLength={40}
                     multiline={true}
                     numberOfLines={1}
 
@@ -76,45 +72,37 @@ const LoginScreen = ({navigation}) => {
             <Button
                 containerStyle={styles.button}
                 onPress={doSingIn}
-                title="Login" />
+                title="Login"/>
             <Button
                 onPress={() => navigation.navigate('Register')}
                 containerStyle={styles.button}
-                type ="outline"
-                title="Register" />
+                type="outline"
+                title="Register"/>
 
 
-
-            <View style={{height:100}}/>
+            <View style={{height: 100}}/>
 
         </KeyboardAvoidingView>
     );
 };
 
 
-
-
-
-
-
-
-
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-        container:{
-            flex:1,
-            alignItems:"center",
-            justifyContent:"center",
-            padding:10,
-            backgroundColor:"white",
+        container: {
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 10,
+            backgroundColor: "white",
         },
-        inputContainer:{
+        inputContainer: {
             width: 300,
         },
-        button:{
-            width:200,
-            marginTop:10,
+        button: {
+            width: 200,
+            marginTop: 10,
         }
 
     }

@@ -1,8 +1,6 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-
-import {SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-
-import {ListItem, Avatar, Input} from "react-native-elements";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Input} from "react-native-elements";
 import {auth, db} from "../firebase";
 
 const EditCardInMyScreen = ({route, navigation}) => {
@@ -28,179 +26,85 @@ const EditCardInMyScreen = ({route, navigation}) => {
 
     const deleteCard = async function () {
 
-        const cards = deck.cards;
+        let cards = deck.cards;
         const newDeckName = deck.name.toString() + "_" + auth.currentUser.uid;
         const docRef = db.collection('decks').doc(newDeckName);
 
-        if (cards.length == 1) {
-
-            try {
-
-                const updateTimestamp = docRef.update({
-                    cards: []
-                });
-
-                const newDeck = {
-                    added: deck.added,
-                    cards: [],
-                    name: deck.name,
-                    user_id: deck.user_id,
-                    user_id_creator: deck.user_id_creator,
-                    visible: deck.visible
-                }
-
-                // console.log("newDeck"+newDeck)
-                navigation.navigate("MyDeck", {
-                    deck: newDeck,
-                });
-
-            } catch (e) {
-                console.log(e)
-            }
-
-        } else {
+        if (cards.length != 1) {
             let i = cards.indexOf(card)
-            const newCards = cards.splice(i, 1)
+            cards.splice(i, 1)
+        } else {
+            cards = [];
+        }
 
-            try {
-
-                const updateTimestamp = docRef.update({
-                    cards: newCards
-                });
-
-                const newDeck = {
-                    added: deck.added,
-                    cards: cards,
-                    name: deck.name,
-                    user_id: deck.user_id,
-                    user_id_creator: deck.user_id_creator,
-                    visible: deck.visible
-                }
-
-                // console.log("newCards"+JSON.stringify(newCards))
-                // console.log("cards"+JSON.stringify(cards))
-                navigation.navigate("MyDeck", {
-                    deck: newDeck,
-                });
-            } catch (e) {
-                console.log(e)
+        try {
+            const update = docRef.update({
+                cards: cards
+            });
+            const newDeck = {
+                added: deck.added,
+                cards: cards,
+                name: deck.name,
+                user_id: deck.user_id,
+                user_id_creator: deck.user_id_creator,
+                visible: deck.visible
             }
+            navigation.navigate("MyDeck", {
+                deck: newDeck,
+            });
 
+        } catch (e) {
+            console.log(e)
         }
 
     }
     const editCard = async function () {
-        const cards = deck.cards;
+        let cards = deck.cards;
         const newDeckName = deck.name.toString() + "_" + auth.currentUser.uid;
         const docRef = db.collection('decks').doc(newDeckName);
 
         const newCard = {
-            front:front,
-            back:back,
+            front: front,
+            back: back,
             learned: card.learned
         }
 
         if (cards.length == 1) {
-
-
-            try {
-
-                const updateTimestamp = docRef.update({
-                    cards: [newCard]
-                });
-
-                const updatedDeck = {
-                    added: deck.added,
-                    cards: [newCard],
-                    name: deck.name,
-                    user_id: deck.user_id,
-                    user_id_creator: deck.user_id_creator,
-                    visible: deck.visible
-                }
-
-                console.log("newDeck"+updatedDeck)
-                navigation.navigate("MyDeck", {
-                    deck: updatedDeck,
-                });
-
-            } catch (e) {
-                console.log(e)
-            }
-
+            cards = [newCard]
         } else {
             let i = cards.indexOf(card)
-
             cards.splice(i, 1)
             cards.splice(i, 0, newCard)
-
-            try {
-
-                const updateTimestamp = docRef.update({
-                    cards: cards
-                });
-
-                const newDeck = {
-                    added: deck.added,
-                    cards: cards,
-                    name: deck.name,
-                    user_id: deck.user_id,
-                    user_id_creator: deck.user_id_creator,
-                    visible: deck.visible
-                }
-
-                console.log("newCards"+JSON.stringify(newDeck))
-                console.log("cards"+JSON.stringify(cards))
-                navigation.navigate("MyDeck", {
-                    deck: newDeck,
-                });
-            } catch (e) {
-                console.log(e)
+        }
+        try {
+            const update = docRef.update({
+                cards: cards
+            });
+            const updatedDeck = {
+                added: deck.added,
+                cards: cards,
+                name: deck.name,
+                user_id: deck.user_id,
+                user_id_creator: deck.user_id_creator,
+                visible: deck.visible
             }
 
+            console.log("newDeck" + updatedDeck)
+            navigation.navigate("MyDeck", {
+                deck: updatedDeck,
+            });
+
+        } catch (e) {
+            console.log(e)
         }
 
 
     }
 
 
-    // const addCart = async function () {
-    //     try {
-    //         //newCard console.log("Cards:"+JSON.stringify(cards));
-    //         const item = {
-    //             front: front,
-    //             back: back,
-    //             learned:null,
-    //         }
-    //         let  newCards = null;
-    //         if(cards== null || cards.length==0) {
-    //             newCards = [item];
-    //             console.log(cards.length)
-    //         }
-    //         else{
-    //
-    //             newCards =
-    //
-    //                 cards.concat(item);
-    //
-    //         }
-    //
-    //         //   console.log("Cards:"+navigation.objectValue());
-    //         //  console.log("newCards:"+JSON.stringify(newCards));
-    //         // console.log(newCards);
-    //         navigation.navigate("NewDeck",{
-    //             newCard :newCards,
-    //         });
-    //
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }
-
     return (
 
-        <View
-            //style={styles.container}
-        >
+        <View>
             <View
                 style={styles.containerInput}
             >
@@ -269,21 +173,8 @@ const styles = StyleSheet.create({
 
 
         },
-        container: {
-            flex: 1,
-            padding: 10,
-            borderRadius: 35,
-            backgroundColor: "#A3C6C4",
-            margin: 5,
-            height: 50,
-
-        },
-        inputContainer: {
-            width: 300,
-        },
         text: {
             fontSize: 20,
-            // fontWeight: "bold",
         }
 
     }

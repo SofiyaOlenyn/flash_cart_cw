@@ -1,35 +1,32 @@
 import React, {useLayoutEffect, useState} from 'react';
-
-import {SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-
-import {ListItem, Avatar, Input} from "react-native-elements";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Input} from "react-native-elements";
 import {auth, db} from "../firebase";
+
 const NewCardToExistingDeckScreen = ({route, navigation}) => {
 
     const [front, setFront] = useState("");
     const [back, setBack] = useState("");
-    const { deck } = route.params;
+    const {deck} = route.params;
+
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackTitle:"Go back",
+            headerBackTitle: "Go back",
         })
-    },[navigation])
+    }, [navigation])
 
     const addCart = async function () {
 
         const cards = deck.cards;
         const newDeckName = deck.name.toString() + "_" + auth.currentUser.uid;
         const docRef = db.collection('decks').doc(newDeckName);
-
         const newCard = {
-            front:front,
-            back:back,
+            front: front,
+            back: back,
             learned: null
         }
 
         if (cards.length == 0) {
-
-
             try {
 
                 const updateTimestamp = docRef.update({
@@ -45,7 +42,7 @@ const NewCardToExistingDeckScreen = ({route, navigation}) => {
                     visible: deck.visible
                 }
 
-                console.log("newDeck"+updatedDeck)
+                console.log("newDeck" + updatedDeck)
                 navigation.navigate("MyDeck", {
                     deck: updatedDeck,
                 });
@@ -54,9 +51,8 @@ const NewCardToExistingDeckScreen = ({route, navigation}) => {
                 console.log(e)
             }
 
-        }
-        else{
-            const newCards =  cards.concat([newCard]);
+        } else {
+            const newCards = cards.concat([newCard]);
             try {
 
                 const updateTimestamp = docRef.update({
@@ -72,7 +68,7 @@ const NewCardToExistingDeckScreen = ({route, navigation}) => {
                     visible: deck.visible
                 }
 
-                console.log("newDeck"+updatedDeck)
+                console.log("newDeck" + updatedDeck)
                 navigation.navigate("MyDeck", {
                     deck: updatedDeck,
                 });
@@ -88,7 +84,7 @@ const NewCardToExistingDeckScreen = ({route, navigation}) => {
     return (
 
         <View
-            //style={styles.container}
+
         >
             <View
                 style={styles.containerInput}
@@ -98,7 +94,7 @@ const NewCardToExistingDeckScreen = ({route, navigation}) => {
                     onChangeText={(value) => setFront(value)}
                     placeholder="Term"
                     autoFocus
-                    maxLength = {30}
+                    maxLength={30}
                     multiline={true}
                     numberOfLines={1}
                 />
@@ -107,7 +103,7 @@ const NewCardToExistingDeckScreen = ({route, navigation}) => {
                     onChangeText={(value) => setBack(value)}
                     placeholder="Definition"
 
-                    maxLength = {300}
+                    maxLength={300}
                     multiline={true}
                     numberOfLines={1}
                 />
@@ -117,7 +113,7 @@ const NewCardToExistingDeckScreen = ({route, navigation}) => {
                 style={styles.buttonAdd}
                 onPress={addCart}
             >
-                <Text  style={styles.text}>Add cart</Text>
+                <Text style={styles.text}>Add cart</Text>
 
             </TouchableOpacity>
         </View>
@@ -127,42 +123,29 @@ const NewCardToExistingDeckScreen = ({route, navigation}) => {
 export default NewCardToExistingDeckScreen;
 
 const styles = StyleSheet.create({
-        buttonAdd:{
+        buttonAdd: {
             alignContent: "center",
             alignItems: 'center',
             justifyContent: 'center',
-
             fontSize: 20,
             fontWeight: "bold",
             marginLeft: 60,
             width: 300,
             marginTop: 30,
-            height:36,
+            height: 36,
             borderRadius: 100,
-            backgroundColor:"#6C7A89",
+            backgroundColor: "#6C7A89",
         },
-        containerInput:{
-            marginTop:200,
-            padding:10,
+        containerInput: {
+            marginTop: 200,
+            padding: 10,
             borderRadius: 35,
-            backgroundColor:"#A3C6C4",
-            margin:5,
+            backgroundColor: "#A3C6C4",
+            margin: 5,
 
 
         },
-        container:{
-            flex:1,
-            padding:10,
-            borderRadius: 35,
-            backgroundColor:"#A3C6C4",
-            margin:5,
-            height:50,
-
-        },
-        inputContainer:{
-            width: 300,
-        },
-        text:{
+        text: {
             fontSize: 20,
             // fontWeight: "bold",
         }
