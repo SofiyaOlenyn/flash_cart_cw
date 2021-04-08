@@ -2,7 +2,7 @@ import React, {useEffect, useLayoutEffect, useState} from 'react';
 
 import {
     FlatList,
-    KeyboardAvoidingView,
+    KeyboardAvoidingView, Modal, Pressable,
     SafeAreaView,
     ScrollView,
     StyleSheet,
@@ -11,64 +11,125 @@ import {
     View
 } from 'react-native';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Card from "../components/Card";
+import CardAdd from "../components/CardAdd";
+import CardInDeck from "../components/CardInDeck";
+import {alert} from "react-native-web";
+import {auth, db} from "../firebase";
 
-const MyDeckScreen = ({route,navigation}) => {
-
+const MyDeckScreen = ({route, navigation}) => {
+    const [modalVisible, setModalVisible] = useState(false);
     const [deckName, setDeckName] = useState("");
-    const [ deckP, setDeckP] = useState("");
-    const [ cards, setCards] = useState("");
-    const { deck } = route.params;
+    const [deckP, setDeckP] = useState("");
+    const [cards, setCards] = useState("");
+    const [loading, setLoading] = useState(false)
+    const {deck} = route.params;
 
-    useEffect(() =>{
-        if(deck) {
+    const fetchCards = async () => {
+        setLoading(true);
+        setCards(deck.cards)
+        setDeckName(deck.name)
+        setLoading(false);
+    }
+    useEffect(() => {
+
+        if (deck) {
             setDeckName(deck.name)
             setDeckP(deck)
             setCards(deck.cards)
         }
-    },[])
+    }, [])
+    const editDeck = async () => {
+        navigation.navigate("EditDeck",{
+            deck:deck,
+        });
+    }
+    const addDeck = async () => {
+        navigation.navigate("NewCardToExistingDeck",{
+            deck:deck,
+        });
+    }
+    const openDeleteModal = async () => {
+        setModalVisible(true)
+    }
+    const deleteDeck= async () => {
 
+        const newDeckName = deck.name.toString() + "_" + auth.currentUser.uid;
+        db.collection("decks").doc(newDeckName).delete().then(() => {
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+        setModalVisible(false)
+        navigation.navigate("Home");
 
+    }
     return (
         <SafeAreaView style={styles.container}>
 
 
-            <Text style={styles.deckname}>{deckName}</Text>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    alert("Modal has been closed.");
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
 
+                            <Text style={styles.modalText}>Do u really wanna delete deck?</Text>
+                        <View style={styles.modalViewAnswers}>
+                            <Pressable
+                                style={[styles.buttonModals, styles.buttonClose]}
+                                onPress={() => setModalVisible(!modalVisible)}
+                            >
+                                <Text style={styles.textStyle}>NO</Text>
+                            </Pressable>
+                            <TouchableOpacity
+                                style={[styles.buttonModals, styles.buttonClose]}
+                                onPress={deleteDeck}
+                            >
+                                <Text style={styles.textStyle}>YES</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+            <Text style={styles.deckname}>{deckName}</Text>
 
 
             <SafeAreaView style={styles.containerEditButtons}>
 
                 <TouchableOpacity
-                   style={styles.buttonsEdit}
-                    //onPress={() => createDeck()}
+                    style={styles.buttonsEdit}
+                    onPress={editDeck}
                 >
-                    <MaterialCommunityIcons name="grease-pencil" color={"#354649"} size={25} />
+                    <MaterialCommunityIcons name="grease-pencil" color={"#354649"} size={25}/>
 
 
                 </TouchableOpacity>
                 <TouchableOpacity
-                   style={styles.buttonsEdit}
-                  //  onPress={() => reset()}
+                    style={styles.buttonsEdit}
+                    onPress={() => openDeleteModal()}
                 >
-                    <MaterialCommunityIcons name="delete" color={"#354649"} size={25} />
+                    <MaterialCommunityIcons name="delete" color={"#354649"} size={25}/>
 
                 </TouchableOpacity>
                 <TouchableOpacity
-                      style={styles.buttonsEdit}
-                    //  onPress={() => reset()}
+                    style={styles.buttonsEdit}
+                      onPress={addDeck}
                 >
 
-                    <MaterialCommunityIcons name="plus-box" color={"#354649"}  size={25} />
+                    <MaterialCommunityIcons name="plus-box" color={"#354649"} size={25}/>
 
                 </TouchableOpacity>
 
             </SafeAreaView>
             <SafeAreaView style={styles.containerProgress}>
 
-
-                <Text  style={styles.scoreText}>Score 110%</Text>
-
+                <Text style={styles.scoreText}>Score 110%</Text>
                 <TouchableOpacity
                     style={styles.buttonsEdit}
                     //onPress={() => createDeck()}
@@ -99,17 +160,17 @@ const MyDeckScreen = ({route,navigation}) => {
                 style={styles.buttonAdd}
                 // onPress={() => openNewCardScreen()}
             >
-                <Text  style={styles.text}> Practise all </Text>
+                <Text style={styles.text}> Practise all </Text>
 
             </TouchableOpacity>
 
             <FlatList
 
                 data={cards}
-                renderItem={({item}) => <Card card={item}/>}
+                renderItem={({item}) => <CardInDeck card={item} deck={deck}/>}
                 keyExtractor={(item) => item.front}
-              //  refreshing={loading}
-              //  onRefresh={fetchTweets}
+                refreshing={loading}
+                onRefresh={fetchCards}
 
             />
         </SafeAreaView>
@@ -119,63 +180,95 @@ const MyDeckScreen = ({route,navigation}) => {
 export default MyDeckScreen;
 
 const styles = StyleSheet.create({
-    containerEditButtons:{
+        containerEditButtons: {
             flexDirection: 'row',
             alignSelf: 'flex-end',
-            marginRight:13,
+            marginRight: 13,
 
 
         }
-        ,
-    buttonsEdit:{
-        marginHorizontal:8,
-    },
-    containerProgress:{
-        flexDirection: 'row',
-        marginTop:15,
-        marginLeft:19,
-    },
+        , modalText: {
+            marginBottom: 15,
+            textAlign: "center"
+        },
+        centeredView: {
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 22
+        },
+        modalView: {
 
-        container:{
-            flex:1,
-            // alignItems:"center",
-            // justifyContent:"center",
-            padding:10,
-            backgroundColor:"#E5E5E5",
+            margin: 20,
+            backgroundColor: "white",
+            borderRadius: 20,
+            padding: 35,
+            alignItems: "center",
+            shadowColor: "#000",
+            shadowOffset: {
+                width: 0,
+                height: 2
+            }
+        },
+        modalViewAnswers: {
+            flexDirection: 'row',
+        },
+        buttonsEdit: {
+            marginHorizontal: 8,
+        },
+        buttonModals: {
+            borderRadius: 20,
+            marginHorizontal: 8,
+            padding: 10,
+            elevation: 2,
+            backgroundColor: "#F194FF",
+        },
+        buttonOpen: {
+            backgroundColor: "#F194FF",
+        },
+        buttonClose: {
+            backgroundColor: "#2196F3",
+        },
+        containerProgress: {
+            flexDirection: 'row',
+            marginTop: 15,
+            marginLeft: 19,
+        },
+
+        container: {
+            flex: 1,
+            padding: 10,
+            backgroundColor: "#E5E5E5",
 
         },
-    scoreText:{
-        marginRight:8,
-        fontSize:15,
-        backgroundColor:"#A3C6C4",
-        color:"black"
-    },
+        scoreText: {
+            marginRight: 8,
+            fontSize: 15,
+            backgroundColor: "#A3C6C4",
+            color: "black"
+        },
 
-        buttonAdd:{
+        buttonAdd: {
             alignContent: "center",
             alignItems: 'center',
             justifyContent: 'center',
-
             fontSize: 20,
-
-            // width: 150,
             margin: 15,
-            height:50,
+            height: 50,
             borderRadius: 20,
+            backgroundColor: "#6C7A89",
 
-            backgroundColor:"#6C7A89",
-            // borderBottomColor:"#49559f",
         },
-        buttonCreate:{
+        buttonCreate: {
             alignContent: "center",
             alignItems: 'center',
             justifyContent: 'center',
             marginLeft: 10,
             width: 192,
             // marginTop: 30,
-            height:50,
+            height: 50,
             borderRadius: 20,
-            backgroundColor:"#6C7A89",
+            backgroundColor: "#6C7A89",
             // borderBottomColor:"#49559f",
         },
         checkboxContainer: {
@@ -186,7 +279,7 @@ const styles = StyleSheet.create({
 
             marginLeft: 15,
         },
-        deckname:{
+        deckname: {
             fontSize: 27,
             fontWeight: "bold",
             marginHorizontal: 25,
@@ -194,16 +287,16 @@ const styles = StyleSheet.create({
             alignItems: 'center',
 
         },
-        text:{
+        text: {
             fontWeight: "bold",
             margin: 15,
         },
-        inputContainer:{
+        inputContainer: {
             width: 300,
         },
-        button:{
-            width:200,
-            marginTop:10,
+        button: {
+            width: 200,
+            marginTop: 10,
         }
 
     }

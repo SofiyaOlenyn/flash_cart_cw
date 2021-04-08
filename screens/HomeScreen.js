@@ -18,7 +18,7 @@ import {useNavigation} from "@react-navigation/native";
 import BottomTabNavigation from "../navigation/BottomTabNavigation";
 import {db} from "../firebase";
 import Deck from "../components/Deck";
-import Card from "../components/Card";
+import CardAdd from "../components/CardAdd";
 
 import {auth} from "../firebase"
 
@@ -37,7 +37,7 @@ const HomeScreen = ({navigation}) => {
 
     const fetchDecks = async () => {
         setLoading(true);
-       console.error("User   "+ JSON.stringify(auth.currentUser));
+     //  console.log("User   "+ JSON.stringify(auth.currentUser));
         const currentUser = auth.currentUser.uid;
         try {
 

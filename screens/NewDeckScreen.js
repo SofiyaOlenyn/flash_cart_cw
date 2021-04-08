@@ -13,7 +13,7 @@ import {
 import {Button, CheckBox, Input} from "react-native-elements";
 import CustomListItem from "../components/CustomListItem";
 // import * as firebase from "firebase";
-import Card from "../components/Card";
+import CardAdd from "../components/CardAdd";
 import {db} from "../firebase";
 import {auth} from "../firebase"
 
@@ -168,9 +168,9 @@ const NewDeckScreen = ({route, navigation}) => {
             </SafeAreaView>
 
 
-            {/*<Card/>*/}
-            {/*<Card/>*/}
-            {/*     <Card card={item}/>*/}
+            {/*<CardAdd/>*/}
+            {/*<CardAdd/>*/}
+            {/*     <CardAdd card={item}/>*/}
 
 
             <TouchableOpacity
@@ -183,7 +183,7 @@ const NewDeckScreen = ({route, navigation}) => {
             <FlatList
 
                 data={ourCards}
-                renderItem={({item}) => <Card card={item}/>}
+                renderItem={({item}) => <CardAdd card={item}/>}
                 keyExtractor={(item) => item.front}
                 refreshing={loading}
                 onRefresh={fetchTweets}

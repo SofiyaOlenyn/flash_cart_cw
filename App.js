@@ -14,6 +14,10 @@ import MyProfileScreen from "./screens/MyProfileScreen";
 import BottomTabNavigation from "./navigation/BottomTabNavigation";
 import NewCardScreen from "./screens/NewCardScreen";
 import MyDeckScreen from "./screens/MyDeckScreen";
+import EditCardWhenAddScreen from "./screens/EditCardWhenAddScreen";
+import EditCardInMyScreen from "./screens/EditCardInMyScreen";
+import EditDeckScreen from "./screens/EditDeckScreen";
+import NewCardToExistingDeckScreen from "./screens/NewCardToExistingDeckScreen";
 
 const Stack = createStackNavigator();
 
@@ -80,6 +84,10 @@ export default function App() {
               />
               <Stack.Screen  name='NewCard' component={NewCardScreen}/>
               <Stack.Screen  name='MyDeck' component={MyDeckScreen}/>
+              <Stack.Screen  name='EditCardWhenAdd' component={EditCardWhenAddScreen}/>
+              <Stack.Screen  name='EditDeck' component={EditDeckScreen}/>
+              <Stack.Screen  name='EditCardInMy' component={EditCardInMyScreen}/>
+              <Stack.Screen  name='NewCardToExistingDeck' component={NewCardToExistingDeckScreen}/>
           </Stack.Navigator>
       </NavigationContainer>
 
