@@ -7,6 +7,7 @@ import {auth, db} from "../firebase";
 const PracticeCardScreen = ({route, navigation}) => {
 
     const {deck} = route.params;
+    const {practiceAll} = route.params;
     const [cards, setCards] = useState([]);
     const [text, setText] = useState("");
     const [front, setFront] = useState(true);

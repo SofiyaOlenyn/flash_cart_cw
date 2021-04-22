@@ -13,7 +13,7 @@ import {db} from "../firebase";
 import {auth} from "../firebase"
 
 const NewDeckScreen = ({route, navigation}) => {
-    //TODO коли нажимаєш на карточку  у флейт листі було едіт її
+
 
     const [i, setI] = useState(0);
     const [deckName, setDeckName] = useState("");

@@ -20,9 +20,12 @@ const MyDeckScreen = ({route, navigation}) => {
     const [deckName, setDeckName] = useState("");
     const [deckP, setDeckP] = useState("");
     const [cards, setCards] = useState("");
+    const [cardsData, setCardsData] = useState("");
     const [loading, setLoading] = useState(false)
     const [score, setScore] = useState("")
-
+    const [allFlag, setAllFlag] = useState(true)
+    const [learnedFlag, setLearnedFlag] = useState(false)
+    const [notLearnedFlag, setNotLearnedFlag] = useState(false)
     const [learned, setLearned] = useState([])
     const [notLearned, setNotLearned] = useState([])
 
@@ -30,9 +33,14 @@ const MyDeckScreen = ({route, navigation}) => {
 
 
     const fetchCards = async () => {
+
+
+
         setLoading(true);
+        setLearnedCards(deck.cards)
         setCards(deck.cards)
         setDeckName(deck.name)
+
         if (deck.score == null) {
             setScore("Not learned")
         } else {
@@ -43,9 +51,15 @@ const MyDeckScreen = ({route, navigation}) => {
     }
     useEffect(() => {
         if (deck) {
+            setAllFlag(true)
+            setNotLearnedFlag(false)
+
+            setLearnedFlag(false)
             setDeckName(deck.name)
-            setDeckP(deck)
+            setCardsData(deck.cards)
+            // setDeckP(deck)
             setCards(deck.cards)
+            setLearnedCards(deck.cards)
             if (deck.score == null) {
                 setScore("Not learned")
             } else {
@@ -60,14 +74,51 @@ const MyDeckScreen = ({route, navigation}) => {
             deck: deck,
         });
     }
+    const setLearnedCards = () => {
 
-    const setLearnedCards = (x) => {
+
+
+        let l = []
+        let nl = []
+
+        for (let k = 0; k < deck.cards.length; k++) {
+            if (deck.cards[k].learned == true) {
+
+                l = l.concat([deck.cards[k]])
+            } else {
+                nl = nl.concat([deck.cards[k]])
+            }
+        }
+
+        setNotLearned(nl)
+        setLearned(l)
 
 
     }
+    const setAllCardsData = async () => {
+        setCardsData(deck.cards)
+        setAllFlag(true)
+        setNotLearnedFlag(false)
+        setLearnedFlag(false)
+
+    }
+    const setLearnedData = async () => {
+        setCardsData(learned)
+        setAllFlag(false)
+        setNotLearnedFlag(false)
+        setLearnedFlag(true)
+    }
+    const setNotLearnedData = async () => {
+        setCardsData(notLearned)
+        setAllFlag(false)
+        setNotLearnedFlag(true)
+        setLearnedFlag(false)
+    }
+
     const practiceDeck = async () => {
         navigation.navigate("PracticeCard", {
             deck: deck,
+            practiceAll:true,
         });
     }
 
@@ -84,8 +135,8 @@ const MyDeckScreen = ({route, navigation}) => {
 
     const deleteDeck = async () => {
         let query = db.collection('decks')
-            .where('name', '==', deck.name.toString())
-            .where('user_id', '==', auth.currentUser.uid);
+            .where('deck_id', '==', deck.deck_id)
+            ;
 
         query.get().then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
@@ -155,24 +206,24 @@ const MyDeckScreen = ({route, navigation}) => {
 
                 <Text style={styles.scoreText}>{score}</Text>
                 <TouchableOpacity
-                    style={styles.buttonsEdit}
-                    //onPress={() => createDeck()}
+                    style={ allFlag ? styles.buttonsEditActive :styles.buttonsEdit }
+                    onPress={() => setAllCardsData()}
                 >
-                    <Text>All()</Text>
+                    <Text>All({cards.length})</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={styles.buttonsEdit}
-                    //  onPress={() => reset()}
+                    style={ notLearnedFlag ? styles.buttonsEditActive :styles.buttonsEdit }
+                      onPress={() => setNotLearnedData()}
                 >
-                    <Text>Not quite()</Text>
+                    <Text>Not quite({notLearned.length})</Text>
 
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={styles.buttonsEdit}
-                    //  onPress={() => reset()}
+                    style={ learnedFlag ? styles.buttonsEditActive :styles.buttonsEdit }
+                     onPress={() => setLearnedData()}
                 >
 
-                    <Text>Got it()</Text>
+                    <Text>Learned({learned.length})</Text>
 
                 </TouchableOpacity>
 
@@ -182,13 +233,13 @@ const MyDeckScreen = ({route, navigation}) => {
                 style={styles.buttonAdd}
                 onPress={() => practiceDeck()}
             >
-                <Text style={styles.text}> Practice all </Text>
+                <Text style={styles.text}> { notLearnedFlag ? "Practice not learned cards" : "Practice all"} </Text>
 
             </TouchableOpacity>
 
             <FlatList
 
-                data={cards}
+                data={cardsData}
                 renderItem={({item}) => <CardInDeck card={item} deck={deck}/>}
                 keyExtractor={(item) => item.front}
                 refreshing={loading}
@@ -232,6 +283,10 @@ const styles = StyleSheet.create({
         modalViewAnswers: {
             flexDirection: 'row',
         },
+    buttonsEditActive: {
+        marginHorizontal: 8,
+        backgroundColor: "#A3C6C4",
+    },
         buttonsEdit: {
             marginHorizontal: 8,
         },
