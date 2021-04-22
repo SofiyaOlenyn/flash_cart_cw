@@ -18,7 +18,7 @@ const EditDeckScreen = ({route, navigation}) => {
 
     const editDeck = async function () {
 
-        const newDeckName = deck.name.toString() + "_" + auth.currentUser.uid;
+        const newDeckName = deck.deck_id;
         const docRef = db.collection('decks').doc(newDeckName);
         const update = docRef.update({
             name: deckName,
@@ -31,7 +31,9 @@ const EditDeckScreen = ({route, navigation}) => {
             name: deckName,
             user_id: deck.user_id,
             user_id_creator: deck.user_id_creator,
-            visible: isSelected
+            visible: isSelected,
+            score: deck.score,
+            deck_id:deck.deck_id
         }
         navigation.navigate("MyDeck", {
             deck: updatedDeck,

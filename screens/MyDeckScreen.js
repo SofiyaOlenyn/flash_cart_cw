@@ -21,12 +21,24 @@ const MyDeckScreen = ({route, navigation}) => {
     const [deckP, setDeckP] = useState("");
     const [cards, setCards] = useState("");
     const [loading, setLoading] = useState(false)
+    const [score, setScore] = useState("")
+
+    const [learned, setLearned] = useState([])
+    const [notLearned, setNotLearned] = useState([])
+
     const {deck} = route.params;
+
 
     const fetchCards = async () => {
         setLoading(true);
         setCards(deck.cards)
         setDeckName(deck.name)
+        if (deck.score == null) {
+            setScore("Not learned")
+        } else {
+
+            setScore((Math.round(deck.score)).toString() + "%")
+        }
         setLoading(false);
     }
     useEffect(() => {
@@ -34,6 +46,12 @@ const MyDeckScreen = ({route, navigation}) => {
             setDeckName(deck.name)
             setDeckP(deck)
             setCards(deck.cards)
+            if (deck.score == null) {
+                setScore("Not learned")
+            } else {
+
+                setScore((Math.round(deck.score)).toString() + "%")
+            }
         }
     }, [])
 
@@ -43,6 +61,10 @@ const MyDeckScreen = ({route, navigation}) => {
         });
     }
 
+    const setLearnedCards = (x) => {
+
+
+    }
     const practiceDeck = async () => {
         navigation.navigate("PracticeCard", {
             deck: deck,
@@ -59,13 +81,14 @@ const MyDeckScreen = ({route, navigation}) => {
         setModalVisible(true)
     }
 
+
     const deleteDeck = async () => {
         let query = db.collection('decks')
-            .where('name','==',deck.name.toString())
-            .where('user_id','==',auth.currentUser.uid);
+            .where('name', '==', deck.name.toString())
+            .where('user_id', '==', auth.currentUser.uid);
 
-        query.get().then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
+        query.get().then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
                 doc.ref.delete();
             });
         });
@@ -130,7 +153,7 @@ const MyDeckScreen = ({route, navigation}) => {
             </SafeAreaView>
             <SafeAreaView style={styles.containerProgress}>
 
-                <Text style={styles.scoreText}>Score 110%</Text>
+                <Text style={styles.scoreText}>{score}</Text>
                 <TouchableOpacity
                     style={styles.buttonsEdit}
                     //onPress={() => createDeck()}

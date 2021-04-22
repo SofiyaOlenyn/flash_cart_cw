@@ -62,6 +62,8 @@ const NewDeckScreen = ({route, navigation}) => {
                 visible: isSelected,
                 cards: newCard,
                 added: false,
+                score: null,
+                deck_id:newDeck
             })
                 .then(() => {
                     console.log("Document successfully written!");

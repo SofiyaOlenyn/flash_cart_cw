@@ -23,11 +23,24 @@ const EditCardInMyScreen = ({route, navigation}) => {
         setBack(card.back)
         setLearned(card.learned)
     }, [])
+    const countScore =  (x) => {
+        let correctAmount=0;
+        for (let k = 0; k < x.length; k++) {
+            if(x[k].learned==true)
+            {
+                correctAmount++
+            }
+        }
+        let score = correctAmount*100/x.length;
+        return score;
 
+
+
+    }
     const deleteCard = async function () {
 
         let cards = deck.cards;
-        const newDeckName = deck.name.toString() + "_" + auth.currentUser.uid;
+        const newDeckName = deck.deck_id;
         const docRef = db.collection('decks').doc(newDeckName);
 
         if (cards.length != 1) {
@@ -41,13 +54,16 @@ const EditCardInMyScreen = ({route, navigation}) => {
             const update = docRef.update({
                 cards: cards
             });
+            let score = countScore(cards)
             const newDeck = {
                 added: deck.added,
                 cards: cards,
                 name: deck.name,
                 user_id: deck.user_id,
                 user_id_creator: deck.user_id_creator,
-                visible: deck.visible
+                visible: deck.visible,
+                score: score,
+                deck_id:deck.deck_id
             }
             navigation.navigate("MyDeck", {
                 deck: newDeck,
@@ -60,7 +76,7 @@ const EditCardInMyScreen = ({route, navigation}) => {
     }
     const editCard = async function () {
         let cards = deck.cards;
-        const newDeckName = deck.name.toString() + "_" + auth.currentUser.uid;
+        const newDeckName = deck.deck_id;
         const docRef = db.collection('decks').doc(newDeckName);
 
         const newCard = {
@@ -86,7 +102,9 @@ const EditCardInMyScreen = ({route, navigation}) => {
                 name: deck.name,
                 user_id: deck.user_id,
                 user_id_creator: deck.user_id_creator,
-                visible: deck.visible
+                visible: deck.visible,
+                score: deck.score,
+                deck_id:deck.deck_id
             }
 
             console.log("newDeck" + updatedDeck)
