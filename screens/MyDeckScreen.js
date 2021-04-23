@@ -15,6 +15,8 @@ import CardInDeck from "../components/CardInDeck";
 import {alert} from "react-native-web";
 import {auth, db} from "../firebase";
 
+
+
 const MyDeckScreen = ({route, navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [deckName, setDeckName] = useState("");
@@ -31,15 +33,26 @@ const MyDeckScreen = ({route, navigation}) => {
 
     const {deck} = route.params;
 
-
+    //todo payAttention on flag and card data
     const fetchCards = async () => {
 
 
-
         setLoading(true);
+
         setLearnedCards(deck.cards)
+
         setCards(deck.cards)
         setDeckName(deck.name)
+        if (allFlag){
+        setCardsData(deck.cards)
+        }else{
+            if(learnedFlag){
+                setCardsData(learned)
+            }
+            else{
+                setCardsData(notLearned)
+            }
+        }
 
         if (deck.score == null) {
             setScore("Not learned")
@@ -75,7 +88,6 @@ const MyDeckScreen = ({route, navigation}) => {
         });
     }
     const setLearnedCards = () => {
-
 
 
         let l = []
@@ -116,10 +128,17 @@ const MyDeckScreen = ({route, navigation}) => {
     }
 
     const practiceDeck = async () => {
-        navigation.navigate("PracticeCard", {
-            deck: deck,
-            practiceAll:true,
-        });
+
+        if(cardsData.length==0) {}
+        else{
+            console.log("cardsData" + cardsData)
+            navigation.navigate("PracticeCard", {
+                deck: deck,
+                cardsData: cardsData,
+                learnAll: allFlag
+            });
+        }
+
     }
 
     const addDeck = async () => {
@@ -136,7 +155,7 @@ const MyDeckScreen = ({route, navigation}) => {
     const deleteDeck = async () => {
         let query = db.collection('decks')
             .where('deck_id', '==', deck.deck_id)
-            ;
+        ;
 
         query.get().then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
@@ -206,21 +225,21 @@ const MyDeckScreen = ({route, navigation}) => {
 
                 <Text style={styles.scoreText}>{score}</Text>
                 <TouchableOpacity
-                    style={ allFlag ? styles.buttonsEditActive :styles.buttonsEdit }
+                    style={allFlag ? styles.buttonsEditActive : styles.buttonsEdit}
                     onPress={() => setAllCardsData()}
                 >
                     <Text>All({cards.length})</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={ notLearnedFlag ? styles.buttonsEditActive :styles.buttonsEdit }
-                      onPress={() => setNotLearnedData()}
+                    style={notLearnedFlag ? styles.buttonsEditActive : styles.buttonsEdit}
+                    onPress={() => setNotLearnedData()}
                 >
                     <Text>Not quite({notLearned.length})</Text>
 
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={ learnedFlag ? styles.buttonsEditActive :styles.buttonsEdit }
-                     onPress={() => setLearnedData()}
+                    style={learnedFlag ? styles.buttonsEditActive : styles.buttonsEdit}
+                    onPress={() => setLearnedData()}
                 >
 
                     <Text>Learned({learned.length})</Text>
@@ -233,7 +252,7 @@ const MyDeckScreen = ({route, navigation}) => {
                 style={styles.buttonAdd}
                 onPress={() => practiceDeck()}
             >
-                <Text style={styles.text}> { notLearnedFlag ? "Practice not learned cards" : "Practice all"} </Text>
+                <Text style={styles.text}> {notLearnedFlag ? "Practice not learned cards" : "Practice all"} </Text>
 
             </TouchableOpacity>
 
@@ -283,10 +302,10 @@ const styles = StyleSheet.create({
         modalViewAnswers: {
             flexDirection: 'row',
         },
-    buttonsEditActive: {
-        marginHorizontal: 8,
-        backgroundColor: "#A3C6C4",
-    },
+        buttonsEditActive: {
+            marginHorizontal: 8,
+            backgroundColor: "#A3C6C4",
+        },
         buttonsEdit: {
             marginHorizontal: 8,
         },
