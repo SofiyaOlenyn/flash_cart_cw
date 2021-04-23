@@ -50,6 +50,8 @@ const styles = StyleSheet.create({
             flex: 1,
             padding: 10,
             borderRadius: 35,
+            borderColor: "#354649",
+            borderWidth: 1,
             backgroundColor: "#A3C6C4",
             margin: 5,
             height: 130,
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
         },
         separator: {
             marginVertical: 8,
-            borderBottomColor: '#737373',
+            borderBottomColor: '#354649',
             borderBottomWidth: StyleSheet.hairlineWidth,
         },
 

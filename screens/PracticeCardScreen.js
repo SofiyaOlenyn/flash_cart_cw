@@ -117,18 +117,18 @@ const PracticeCardScreen = ({route, navigation}) => {
 
             <SafeAreaView style={styles.containerButtons}>
 
-                <TouchableOpacity
+                <TouchableOpacity style={styles.answerButton}
                     //   style={styles.buttonCreate}
                     onPress={() => correctAnswer(false)}
                 >
-                    <Text style={styles.answerButton}> Not quite </Text>
+                    <Text style={styles.text} > Not quite </Text>
 
                 </TouchableOpacity>
-                <TouchableOpacity
+                <TouchableOpacity style={styles.answerButton}
                     // style={styles.buttonCreate}
                     onPress={() => correctAnswer(true)}
                 >
-                    <Text style={styles.answerButton}> Learned </Text>
+                    <Text style={styles.text}> Learned </Text>
 
                 </TouchableOpacity>
 
@@ -155,14 +155,15 @@ const styles = StyleSheet.create({
         backgroundColor: "#E5E5E5",
     },
     answerButton: {
-        // alignSelf: 'center',
-        // justifyContent: 'center',
+        alignSelf: 'center',
+        justifyContent: 'center',
         fontWeight: "bold",
         marginHorizontal: 40,
         borderRadius: 5,
         borderColor: "#A3C6C4",
         borderWidth: 3,
-        //  width:100,
+          width:100,
+        height:50,
     },
     flipButton: {
         fontWeight: "bold",
@@ -185,12 +186,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 10,
         borderRadius: 35,
+        borderColor: "#354649",
+        borderWidth: 1,
         backgroundColor: "#A3C6C4",
         margin: 5,
         height: 300,
     },
     text: {
         fontWeight: "bold",
+        alignSelf: 'center',
+        justifyContent: 'center',
     },
     containerButtons: {
         marginTop: 25,

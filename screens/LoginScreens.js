@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {KeyboardAvoidingView, StyleSheet, View} from 'react-native';
+import {KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Button, Input, Image} from 'react-native-elements'
 import {StatusBar} from "expo-status-bar";
 import {auth} from "../firebase"
@@ -36,10 +36,10 @@ const LoginScreen = ({navigation}) => {
         <KeyboardAvoidingView behavior='padding' style={styles.container}>
             <StatusBar style="light"/>
             <Image source={{
-                uri: "https://images-na.ssl-images-amazon.com/images/I/713Sa%2BKDnsL.png",
+                uri: "https://i.postimg.cc/02JbFwVr/photo-2021-04-23-13-12-12.jpg",
 
             }}
-                   style={{width: 200, height: 200}}
+                   style={{width: 600, height: 200}}
             />
 
 
@@ -69,15 +69,22 @@ const LoginScreen = ({navigation}) => {
                 />
 
             </View>
-            <Button
-                containerStyle={styles.button}
-                onPress={doSingIn}
-                title="Login"/>
-            <Button
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => doSingIn()}
+            >
+                <Text style={styles.text}>Login</Text>
+
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.button}
                 onPress={() => navigation.navigate('Register')}
-                containerStyle={styles.button}
-                type="outline"
-                title="Register"/>
+
+            >
+
+                <Text>Register</Text>
+
+            </TouchableOpacity>
 
 
             <View style={{height: 100}}/>
@@ -97,12 +104,21 @@ const styles = StyleSheet.create({
             padding: 10,
             backgroundColor: "white",
         },
+    text:{
+        fontWeight: "bold",
+    },
         inputContainer: {
             width: 300,
         },
         button: {
+            alignItems: "center",
+            justifyContent: "center",
+
             width: 200,
             marginTop: 10,
+            height: 50,
+            borderRadius: 20,
+            backgroundColor: "#6C7A89",
         }
 
     }

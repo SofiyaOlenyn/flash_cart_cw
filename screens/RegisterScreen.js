@@ -1,5 +1,5 @@
 import React, {useLayoutEffect, useState} from 'react';
-import {KeyboardAvoidingView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {KeyboardAvoidingView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Button, Input} from "react-native-elements";
 import {auth} from "../firebase"
 
@@ -65,7 +65,16 @@ const RegisterScreen = ({navigation}) => {
                 />
 
             </View>
-            <Button containerStyle={styles.button} reised onPress={register} title="Register"/>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={register}
+
+            >
+
+                <Text>Register</Text>
+
+            </TouchableOpacity>
+
         </KeyboardAvoidingView>
     );
 };
@@ -82,8 +91,14 @@ const styles = StyleSheet.create({
         width: 300,
     },
     button: {
+        alignItems: "center",
+        justifyContent: "center",
+
         width: 200,
         marginTop: 10,
+        height: 50,
+        borderRadius: 20,
+        backgroundColor: "#6C7A89",
     }
 
 });

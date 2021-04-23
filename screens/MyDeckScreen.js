@@ -342,6 +342,8 @@ const styles = StyleSheet.create({
             margin: 15,
             height: 50,
             borderRadius: 20,
+            borderColor: "#354649",
+            borderWidth: 1,
             backgroundColor: "#6C7A89",
 
         },
@@ -353,6 +355,8 @@ const styles = StyleSheet.create({
             width: 192,
             height: 50,
             borderRadius: 20,
+            // borderColor: "#354649",
+            // borderWidth: 1,
             backgroundColor: "#6C7A89",
         },
         checkboxContainer: {
