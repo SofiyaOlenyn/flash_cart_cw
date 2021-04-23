@@ -12,6 +12,7 @@ import EditCardInMyScreen from "./screens/EditCardInMyScreen";
 import EditDeckScreen from "./screens/EditDeckScreen";
 import NewCardToExistingDeckScreen from "./screens/NewCardToExistingDeckScreen";
 import PracticeCardScreen from "./screens/PracticeCardScreen";
+import DeckInSearchScreen from "./screens/DeckInSearchScreen";
 
 const Stack = createStackNavigator();
 
@@ -53,6 +54,7 @@ export default function App() {
               <Stack.Screen  name='EditCardInMy' component={EditCardInMyScreen}/>
               <Stack.Screen  name='NewCardToExistingDeck' component={NewCardToExistingDeckScreen}/>
               <Stack.Screen  name='PracticeCard' component={PracticeCardScreen}/>
+              <Stack.Screen  name='DeckInSearch' component={DeckInSearchScreen}/>
           </Stack.Navigator>
       </NavigationContainer>
 

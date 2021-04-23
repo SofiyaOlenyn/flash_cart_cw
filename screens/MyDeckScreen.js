@@ -83,29 +83,27 @@ const MyDeckScreen = ({route, navigation}) => {
     }, [])
 
     const editDeck = async () => {
-        navigation.navigate("EditDeck", {
-            deck: deck,
-        });
+
+        if(!deck.added) {
+
+            navigation.navigate("EditDeck", {
+                deck: deck,
+            });
+       }
     }
     const setLearnedCards = () => {
 
-
         let l = []
         let nl = []
-
         for (let k = 0; k < deck.cards.length; k++) {
             if (deck.cards[k].learned == true) {
-
                 l = l.concat([deck.cards[k]])
             } else {
                 nl = nl.concat([deck.cards[k]])
             }
         }
-
         setNotLearned(nl)
         setLearned(l)
-
-
     }
     const setAllCardsData = async () => {
         setCardsData(deck.cards)
