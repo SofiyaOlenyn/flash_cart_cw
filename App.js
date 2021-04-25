@@ -13,6 +13,9 @@ import EditDeckScreen from "./screens/EditDeckScreen";
 import NewCardToExistingDeckScreen from "./screens/NewCardToExistingDeckScreen";
 import PracticeCardScreen from "./screens/PracticeCardScreen";
 import DeckInSearchScreen from "./screens/DeckInSearchScreen";
+import NewCollectionScreen from "./screens/NewCollectionScreen";
+import MyCollectionScreen from "./screens/MyCollectionScreen";
+import EditCollectionScreen from "./screens/EditCollectionScreen";
 
 const Stack = createStackNavigator();
 
@@ -55,6 +58,10 @@ export default function App() {
               <Stack.Screen  name='NewCardToExistingDeck' component={NewCardToExistingDeckScreen}/>
               <Stack.Screen  name='PracticeCard' component={PracticeCardScreen}/>
               <Stack.Screen  name='DeckInSearch' component={DeckInSearchScreen}/>
+              <Stack.Screen  name='NewCollection' component={NewCollectionScreen}/>
+              <Stack.Screen  name='MyCollection' component={MyCollectionScreen}/>
+              <Stack.Screen  name='EditCollection' component={EditCollectionScreen}/>
+
           </Stack.Navigator>
       </NavigationContainer>
 

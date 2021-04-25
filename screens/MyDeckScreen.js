@@ -20,7 +20,6 @@ import {auth, db} from "../firebase";
 const MyDeckScreen = ({route, navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [deckName, setDeckName] = useState("");
-    const [deckP, setDeckP] = useState("");
     const [cards, setCards] = useState("");
     const [cardsData, setCardsData] = useState("");
     const [loading, setLoading] = useState(false)
