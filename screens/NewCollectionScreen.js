@@ -19,6 +19,10 @@ const NewCollectionScreen = ({navigation}) => {
     const [collectionName, setCollectionName] = useState("");
     const [decks, setDecks] = useState([])
     const [loading, setLoading] = useState(false)
+
+    navigation.setOptions({
+        headerBackTitle: "Back",
+    })
     const fetchDecks = async () => {
 
         setLoading(true);

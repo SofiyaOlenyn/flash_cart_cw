@@ -25,7 +25,9 @@ const MyCollectionScreen = ({route, navigation}) => {
     const [loading, setLoading] = useState(false)
     const {collection} = route.params;
 
-
+    navigation.setOptions({
+        headerBackTitle: "Back",
+    })
     const fetchDecks = async () => {
 
         setLoading(true);

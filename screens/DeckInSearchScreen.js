@@ -18,7 +18,9 @@ const DeckInSearchScreen = ({route, navigation}) => {
     const {deck} = route.params;
     const [cards, setCards] = useState([])
     const [loading, setLoading] = useState(false)
-
+    navigation.setOptions({
+        headerBackTitle: "Back",
+    })
     const fetchCards = async () => {
         setCards(deck.cards)
     }

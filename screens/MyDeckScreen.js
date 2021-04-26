@@ -31,7 +31,9 @@ const MyDeckScreen = ({route, navigation}) => {
     const [notLearned, setNotLearned] = useState([])
 
     const {deck} = route.params;
-
+    navigation.setOptions({
+        headerBackTitle: "Back",
+    })
     //todo payAttention on flag and card data
     const fetchCards = async () => {
 
