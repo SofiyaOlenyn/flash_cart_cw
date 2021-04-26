@@ -17,7 +17,6 @@ import {auth, db} from "../firebase";
 import Deck from "../components/Deck";
 
 
-
 const MyCollectionScreen = ({route, navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [collectionName, setCollectionName] = useState("");
@@ -33,8 +32,8 @@ const MyCollectionScreen = ({route, navigation}) => {
         setLoading(true);
         let arrID = []
 
-        for(let i=0;i<collection.decks.length;i++){
-            arrID[i]=collection.decks[i].deck_id
+        for (let i = 0; i < collection.decks.length; i++) {
+            arrID[i] = collection.decks[i].deck_id
         }
 
         try {
@@ -58,7 +57,6 @@ const MyCollectionScreen = ({route, navigation}) => {
         }
 
 
-
         setCollectionName(collection.name)
 
         setLoading(false);
@@ -73,19 +71,18 @@ const MyCollectionScreen = ({route, navigation}) => {
     }
     const deleteCollection = async () => {
 
-            let query = db.collection('collections')
-                .where('collection_id', '==', collection.collection_id)
-            ;
+        let query = db.collection('collections')
+            .where('collection_id', '==', collection.collection_id)
+        ;
 
-            query.get().then(function (querySnapshot) {
-                querySnapshot.forEach(function (doc) {
-                    doc.ref.delete();
-                });
+        query.get().then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                doc.ref.delete();
             });
+        });
 
-            setModalVisible(false)
-            navigation.navigate("Home");
-
+        setModalVisible(false)
+        navigation.navigate("Home");
 
 
     }
@@ -95,7 +92,6 @@ const MyCollectionScreen = ({route, navigation}) => {
     useEffect(() => {
 
         fetchDecks()
-
 
 
     }, [])
@@ -125,7 +121,7 @@ const MyCollectionScreen = ({route, navigation}) => {
                             </Pressable>
                             <TouchableOpacity
                                 style={styles.buttonModals}
-                               onPress={deleteCollection}
+                                onPress={deleteCollection}
                             >
                                 <Text style={styles.textStyle}>YES</Text>
                             </TouchableOpacity>
@@ -143,25 +139,17 @@ const MyCollectionScreen = ({route, navigation}) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.buttonsEdit}
-                   onPress={() => openDeleteModal()}
+                    onPress={() => openDeleteModal()}
                 >
                     <MaterialCommunityIcons name="delete" color={"#354649"} size={25}/>
                 </TouchableOpacity>
-
-
             </SafeAreaView>
-
-
-
-
             <FlatList
-
                 data={decks}
                 renderItem={({item}) => <Deck deck={item}/>}
-                keyExtractor={(item) => item.front}
+                keyExtractor={(item) => item.deck_id}
                 refreshing={loading}
                 onRefresh={fetchDecks}
-
             />
         </SafeAreaView>
     );

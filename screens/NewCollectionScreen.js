@@ -135,6 +135,7 @@ const NewCollectionScreen = ({navigation}) => {
             </TouchableOpacity>
             <FlatList
                 data={decks}
+                keyExtractor={(item =>  item.deck_id)}
                 renderItem={(({item}) =>
                         <View
                             style={styles.containerDeck}

@@ -6,7 +6,6 @@ import SearchField from "../components/SearchField";
 const SearchScreen = ({navigation}) => {
     return (
         <SafeAreaView
-         //   style={styles.container}
         >
             <View
                 style={styles.headerContainer}

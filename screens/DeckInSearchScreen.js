@@ -71,6 +71,7 @@ const DeckInSearchScreen = ({route, navigation}) => {
             <FlatList
                 data={cards}
                 renderItem={({item}) => <Card card={item} cards={deck.cards}/>}
+                keyExtractor={(item) => item.front}
                 refreshing={loading}
                 onRefresh={fetchCards}
             />

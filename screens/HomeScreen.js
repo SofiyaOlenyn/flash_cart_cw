@@ -112,10 +112,8 @@ const HomeScreen = ({navigation}) => {
             </SafeAreaView>
             <FlatList
                 data={ deckFlag ? decks : collections }
-                renderItem={
-                    deckFlag ? ( ({item}) => <Deck deck={item}/>) : ( ({item}) => <CollectionLine collection={item}/>) }
-
-
+                renderItem={ deckFlag ? ( ({item}) => <Deck deck={item}/>) : ( ({item}) => <CollectionLine collection={item}/>) }
+                keyExtractor={deckFlag ? (item) => item.deck_id : (item) => item.collection_id}
                 refreshing={loading}
                 onRefresh={deckFlag ? fetchDecks : fetchCollections}
             />
