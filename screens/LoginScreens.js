@@ -60,11 +60,11 @@ const LoginScreen = ({navigation}) => {
                     onChangeText={(value) => setPassword(value)}
                     placeholder="Password"
                     textContentType={"password"}
-                    secureTextEntry
+                    secureTextEntry={true}
                     maxLength={40}
                     multiline={true}
                     numberOfLines={1}
-
+                    keyboardType={"default"}
 
                 />
 

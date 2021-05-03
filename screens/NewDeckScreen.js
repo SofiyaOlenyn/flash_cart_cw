@@ -67,7 +67,6 @@ const NewDeckScreen = ({route, navigation}) => {
             })
                 .then(() => {
                     console.log("Document successfully written!");
-
                 })
                 .catch((error) => {
                     console.error("Error writing document: ", error);
@@ -101,7 +100,7 @@ const NewDeckScreen = ({route, navigation}) => {
         fetchTweets().then(() => {
         });
 
-    }, [])
+    }, [newCard])
 
     return (
         <SafeAreaView style={styles.container}>

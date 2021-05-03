@@ -62,16 +62,22 @@ const NewCollectionScreen = ({navigation}) => {
     const createCollection = async () => {
         let collectionsAdded = decks.filter(item => item.toCollection === true);
 
+
         // let arrID = []
-        //
         // for(let i=0; i<collectionsAdded.length;i++){
-        //     let deck ={
+        //     let deck = {
         //         deck_id: collectionsAdded.deck_id,
-        //         name:collectionsAdded.name
+        //         name:collectionsAdded.name,
+        //         length:collectionsAdded.length
         //     }
         //     arrID.push(deck)
+        //     console.log(JSON.stringify(deck))
+        //     console.log(JSON.stringify(arrID))
         //
         // }
+        // console.log(JSON.stringify(arrID))
+
+
         if (collectionName) {
             const newCollection = collectionName.toString() + "_" + auth.currentUser.uid;
             db.collection("collections").doc(newCollection).set({

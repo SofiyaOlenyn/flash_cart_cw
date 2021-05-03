@@ -71,7 +71,6 @@ const MyDeckScreen = ({route, navigation}) => {
             setLearnedFlag(false)
             setDeckName(deck.name)
             setCardsData(deck.cards)
-            // setDeckP(deck)
             setCards(deck.cards)
             setLearnedCards(deck.cards)
             if (deck.score == null) {
@@ -81,7 +80,7 @@ const MyDeckScreen = ({route, navigation}) => {
                 setScore((Math.round(deck.score)).toString() + "%")
             }
         }
-    }, [])
+    }, [deck])
 
     const editDeck = async () => {
 
@@ -150,7 +149,7 @@ const MyDeckScreen = ({route, navigation}) => {
         setModalVisible(true)
     }
 
-
+//todo delete in collections
     const deleteDeck = async () => {
         let query = db.collection('decks')
             .where('deck_id', '==', deck.deck_id)

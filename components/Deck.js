@@ -25,8 +25,7 @@ const Deck = ({deck}) => {
             >
                 <Text style={styles.frontText}>{deck.name}</Text>
                 <Text style={styles.text}>
-                    {/*{deck.cards.length} */}
-                    cards</Text>
+                    {deck.cards.length} cards</Text>
             </TouchableOpacity>
         </View>
     );

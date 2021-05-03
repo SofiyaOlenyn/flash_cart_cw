@@ -63,8 +63,8 @@ const DeckLine = ({deck}) => {
                         <Text style={styles.text}>
                             {deck.cards.length} cards</Text>
 
-                        <Text style={styles.text}>
-                            Created by: {(auth.currentUser.uid == deck.user_id_creator) ? "me" : ""}</Text>
+                        {/*<Text style={styles.text}>*/}
+                        {/*    Created by: {(auth.currentUser.uid == deck.user_id_creator) ? "me" : ""}</Text>*/}
                     </View>
                 </TouchableOpacity>
             </View>

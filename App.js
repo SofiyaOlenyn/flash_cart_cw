@@ -22,9 +22,7 @@ import {StyleSheet} from "react-native";
 const Stack = createStackNavigator();
 
 const globalScreenOptions = {
-
-
-    headerStyle: {backgroundColor: "#354649"}, //color of top
+    headerStyle: {backgroundColor: "#354649"},
     buttonColor: "#57648C",
     headerTitleStyle: {color: "white"},
     headerTintColor: "white",
@@ -40,17 +38,10 @@ export default function App() {
                 <Stack.Screen name='Register' component={RegisterScreen}/>
                 <Stack.Screen name='Home' component={BottomTabNavigation}
                               options={{
-                                 headerTitle: "Flashcards App",
-                                  headerTitleStyle:styles.text
-                                  // headerRight: () => (
-                                  //     // <MaterialCommunityIcons name = {"star-four-points-outline"} size={30} color={Colors.light.tint}/>
-                                  //     <Ionicons name = {"ios-log-out"} onPress={signOutUser} size={30} color={"#4D9FEC"}/>
-                                  // )
-
+                                  headerTitle: "Flashcards App",
+                                  headerTitleStyle: styles.text
                               }
                               }
-
-
                 />
                 <Stack.Screen name='NewCard' component={NewCardScreen}
                               options={{headerTitle: "Add card"}}/>
@@ -82,10 +73,11 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
- 
+
     text: {
 
         fontSize: 20,
         fontWeight: "bold",
-    }})
+    }
+})
 

@@ -84,8 +84,8 @@ export default DeckInSearchScreen;
 const styles = StyleSheet.create({
 
     text: {
-        marginHorizontal:20,
-        marginTop:10,
+        marginHorizontal: 20,
+        marginTop: 10,
         fontWeight: "bold",
         fontSize: 40,
         alignContent: "center",
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         alignContent: "center",
     },
     buttonCreate: {
-        margin:20,
+        margin: 20,
         borderRadius: 20,
         borderColor: "#354649",
         borderWidth: 1,
