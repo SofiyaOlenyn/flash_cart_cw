@@ -29,6 +29,15 @@ const HeaderForMyProfile = () => {
     }
 
     const signOutUser = async function () {
+        // let user = firebase.auth().currentUser;
+        //
+        // user.updateProfile({
+        //     photoURL: "https://doggy-boom.ru/images/pomeran-shpic-2.jpg"
+        // }).then(function() {
+        //     // Update successful.
+        // }).catch(function(error) {
+        //     // An error happened.
+        // });
         try {
             await firebase.auth().signOut();
             navigation.replace("Login");

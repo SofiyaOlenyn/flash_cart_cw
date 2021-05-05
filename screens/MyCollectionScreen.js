@@ -55,10 +55,7 @@ const MyCollectionScreen = ({route, navigation}) => {
         } catch (e) {
             console.log(e);
         }
-
-
         setCollectionName(collection.name)
-
         setLoading(false);
     }
 
@@ -72,9 +69,7 @@ const MyCollectionScreen = ({route, navigation}) => {
     const deleteCollection = async () => {
 
         let query = db.collection('collections')
-            .where('collection_id', '==', collection.collection_id)
-        ;
-
+            .where('collection_id', '==', collection.collection_id);
         query.get().then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
                 doc.ref.delete();
@@ -94,7 +89,7 @@ const MyCollectionScreen = ({route, navigation}) => {
         fetchDecks()
 
 
-    }, [])
+    }, [collection])
 
 
     return (

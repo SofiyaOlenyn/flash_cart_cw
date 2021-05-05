@@ -31,10 +31,8 @@ const HomeScreen = ({navigation}) => {
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         results.push(doc.data())
-                        // console.log("results"+results);
                     });
                     setDecks(results);
-
                 })
                 .catch((error) => {
                     console.log("Error getting documents: ", error);
@@ -77,9 +75,14 @@ const HomeScreen = ({navigation}) => {
 
     }
     useEffect(() => {
+        if(deckFlag){
         fetchDecks().then(r => {
-        });
-    }, [])
+        });}
+        else {
+            fetchCollections().then(r => {
+            })
+        }
+    }, [deckFlag])
 
 
     return (
@@ -87,14 +90,14 @@ const HomeScreen = ({navigation}) => {
             <SafeAreaView style={styles.containerButtons}>
 
                 <TouchableOpacity
-                    style={styles.buttonCreate}
+                    style={deckFlag ? styles.buttonCreatActive : styles.buttonCreate}
                     onPress={() => fetchDecks()}
                 >
                     <Text style={styles.text}> My decks </Text>
 
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={styles.buttonCreate}
+                    style={deckFlag ? styles.buttonCreate : styles.buttonCreatActive}
                     onPress={() => fetchCollections()}
                 >
                     <Text style={styles.text}> My collections </Text>
@@ -138,6 +141,17 @@ const styles = StyleSheet.create({
         width: 180,
         height: 40,
         backgroundColor: "#6C7A89",
+    },
+    buttonCreatActive: {
+        alignContent: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 180,
+        height: 40,
+        backgroundColor: "#6C7A89",
+        borderRadius: 0,
+        borderColor: "#354649",
+        borderWidth: 3,
     },
     plusIcon:{
         backgroundColor: "#6C7A89",

@@ -161,6 +161,53 @@ const MyDeckScreen = ({route, navigation}) => {
             });
         });
 
+        const currentUser = auth.currentUser.uid;
+        let results = [];
+        try {
+
+            db.collection("collections").where("user_id", "==", currentUser)
+                .get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        results.push(doc.data())
+                        console.log("results"+results);
+                    });
+                    console.log(JSON.stringify("finally"))
+                    for(let i=0;i<results.length;i++){
+                        for(let j=0;j<results.length;j++){
+                            if(results[i].decks[j].deck_id==deck.deck_id){
+
+                                let decksToChange=results[i].decks;
+                                console.log(JSON.stringify("sss"+decksToChange))
+                                console.log(JSON.stringify("j "+j))
+                                decksToChange.splice(j, 1);
+                                try {
+                                    const docRef = db.collection('collections').doc(results[i].collection_id);
+                                    const update = docRef.update({
+                                        decks:decksToChange
+                                    });
+                                }catch (e){
+
+                                }
+                            }
+                        }
+
+                    }
+                })
+                .catch((error) => {
+                    console.log("Error getting documents: ", error);
+                });
+
+
+
+        } catch (e) {
+            console.log(e);
+        }
+
+
+
+
+
         setModalVisible(false)
         navigation.navigate("Home");
 
