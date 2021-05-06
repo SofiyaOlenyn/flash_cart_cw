@@ -113,7 +113,7 @@ const HomeScreen = ({navigation}) => {
 
 
             </SafeAreaView>
-            <FlatList
+            <FlatList style={{width: '100%', height:'91.3%'}}
                 data={ deckFlag ? decks : collections }
                 renderItem={ deckFlag ? ( ({item}) => <Deck deck={item}/>) : ( ({item}) => <CollectionLine collection={item}/>) }
                 keyExtractor={deckFlag ? (item) => item.deck_id : (item) => item.collection_id}

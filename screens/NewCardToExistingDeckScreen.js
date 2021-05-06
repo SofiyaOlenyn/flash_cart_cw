@@ -23,7 +23,9 @@ const NewCardToExistingDeckScreen = ({route, navigation}) => {
         const newCard = {
             front: front,
             back: back,
-            learned: null
+            learned: null,
+            box: 1,
+            lastSeen:Date.now()
         }
 
         if (cards.length == 0) {

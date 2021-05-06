@@ -4,11 +4,14 @@ import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-nati
 import {auth, db} from "../firebase";
 
 
-const PracticeCardScreen = ({route, navigation}) => {
+const PracticeSpecialScreen = ({route, navigation}) => {
 
     const {deck} = route.params;
     const {cardsData} = route.params;
-    const {learnAll} = route.params;
+    const {notInRes} = route.params;
+
+
+    // const {learnAll} = route.params;
     const [cards, setCards] = useState([]);
     const [text, setText] = useState("");
     const [front, setFront] = useState(true);
@@ -37,11 +40,30 @@ const PracticeCardScreen = ({route, navigation}) => {
 
     const makeAnswer = async (answer) => {
 
+        let boxNum;
+        if(answer){
+
+            if(cardsData[i].box==4){
+                boxNum=4;
+            }
+            else{
+                boxNum=cardsData[i].box+1;
+            }
+        }
+        else{
+            if(cardsData[i].box==1){
+                boxNum=1;
+            }
+            else{
+                boxNum=cardsData[i].box-1;
+            }
+        }
+        console.log(boxNum)
         let card = {
             front: cardsData[i].front,
             back: cardsData[i].back,
             learned: answer,
-            box: cardsData[i].box,
+            box: boxNum,
             lastSeen:Date.now()
         }
         let tmp = cards.concat([card])
@@ -49,31 +71,36 @@ const PracticeCardScreen = ({route, navigation}) => {
         if (cardsData.length == i + 1) {
 
             let cardsArr = []
-            if (!learnAll) {
-                let j = 0;
 
-                for (let k = 0; k < deck.cards.length; k++) {
-                    if (deck.cards[k].back == tmp[j].back && deck.cards[k].front == tmp[j].front) {
-                        cardsArr = cardsArr.concat([tmp[j]])
-                        j++
-                    } else {
-                        cardsArr = cardsArr.concat([deck.cards[k]])
-                    }
-                }
-            } else {
-                cardsArr = tmp
+
+            // if (!learnAll)
+            {
+                // let j = 0;
+                //
+                // for (let k = 0; k < deck.cards.length; k++) {
+                //     if (deck.cards[k].back == tmp[j].back && deck.cards[k].front == tmp[j].front) {
+                //         cardsArr = cardsArr.concat([tmp[j]])
+                //         j++
+                //     } else {
+                //         cardsArr = cardsArr.concat([deck.cards[k]])
+                //     }
+                // }
             }
+            // else
+            //     {
+            //     cardsArr = tmp
+            // }
 
-            let score = countScore(cardsArr);
+            cardsArr=tmp.concat(notInRes)
+            // let score = countScore(cardsArr);
             const docRef = db.collection('decks').doc(deck.deck_id);
             const updateTimestamp = docRef.update({
-                score: score,
                 cards: cardsArr
             });
 
             const updatedDeck = {
                 deck_id: deck.deck_id,
-                score: score,
+                score: deck.score,
                 added: deck.added,
                 cards: cardsArr,
                 name: deck.name,
@@ -121,14 +148,14 @@ const PracticeCardScreen = ({route, navigation}) => {
 
                 <TouchableOpacity style={styles.answerButton}
                     //   style={styles.buttonCreate}
-                    onPress={() => makeAnswer(false)}
+                                  onPress={() => makeAnswer(false)}
                 >
                     <Text style={styles.text} > Not quite </Text>
 
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.answerButton}
                     // style={styles.buttonCreate}
-                    onPress={() => makeAnswer(true)}
+                                  onPress={() => makeAnswer(true)}
                 >
                     <Text style={styles.text}> Learned </Text>
 
@@ -141,7 +168,7 @@ const PracticeCardScreen = ({route, navigation}) => {
     );
 };
 
-export default PracticeCardScreen;
+export default PracticeSpecialScreen;
 const styles = StyleSheet.create({
     counter: {
         // alignItems: 'center',
@@ -164,7 +191,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: "#A3C6C4",
         borderWidth: 3,
-          width:100,
+        width:100,
         height:50,
     },
     flipButton: {

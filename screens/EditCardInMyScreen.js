@@ -82,7 +82,10 @@ const EditCardInMyScreen = ({route, navigation}) => {
         const newCard = {
             front: front,
             back: back,
-            learned: card.learned
+            learned: card.learned,
+            box: 1,
+            lastSeen:Date.now(),
+
         }
 
         if (cards.length == 1) {

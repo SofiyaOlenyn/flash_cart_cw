@@ -56,7 +56,7 @@ const NewDeckScreen = ({route, navigation}) => {
         if (deckName) {
             const newDeck = deckName.toString() + "_" + auth.currentUser.uid;
             db.collection("decks").doc(newDeck).set({
-                name: deckName,
+                name: deckName.trim(),
                 user_id: auth.currentUser.uid,
                 user_id_creator: auth.currentUser.uid,
                 visible: isSelected,

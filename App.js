@@ -18,6 +18,7 @@ import MyCollectionScreen from "./screens/MyCollectionScreen";
 import EditCollectionScreen from "./screens/EditCollectionScreen";
 import Ionicons from "react-native-vector-icons";
 import {StyleSheet} from "react-native";
+import PracticeSpecialScreen from "./screens/PracticeSpecialScreen";
 
 const Stack = createStackNavigator();
 
@@ -65,7 +66,8 @@ export default function App() {
                               options={{headerTitle: "Collection"}}/>
                 <Stack.Screen name='EditCollection' component={EditCollectionScreen}
                               options={{headerTitle: "Edit"}}/>
-
+                <Stack.Screen name='PracticeSpecial' component={PracticeSpecialScreen}
+                              options={{headerTitle: "Practice"}}/>
             </Stack.Navigator>
         </NavigationContainer>
 

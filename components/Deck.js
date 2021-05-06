@@ -5,6 +5,7 @@ import {SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View} from
 import {ListItem, Avatar, Input} from "react-native-elements";
 import Divider from "react-native-paper";
 import {useNavigation} from "@react-navigation/core";
+import {auth} from "../firebase";
 
 const Deck = ({deck}) => {
 
@@ -24,8 +25,12 @@ const Deck = ({deck}) => {
                 onPress={() => openDeckScreen()}
             >
                 <Text style={styles.frontText}>{deck.name}</Text>
+                <View style={styles.bottom}>
                 <Text style={styles.text}>
                     {deck.cards.length} cards</Text>
+                <Text style={styles.text}>
+                    {(auth.currentUser.uid != deck.user_id_creator) ? " Added" : ""}</Text>
+                </View>
             </TouchableOpacity>
         </View>
     );
@@ -52,6 +57,9 @@ const styles = StyleSheet.create({
             margin: 5,
             height: 100,
         },
+    bottom: {
+        flexDirection: 'row',
+    }
 
     }
 )

@@ -62,7 +62,10 @@ const SearchField = () => {
                     .then((querySnapshot) => {
                         querySnapshot.forEach((doc) => {
                             arr.push(doc.data())
+                            console.log(arr)
                         });
+
+
                         setUserResults(arr);
                     })
                     .catch((error) => {
@@ -97,6 +100,13 @@ const SearchField = () => {
 
                             // console.log("results"+arr);
                         });
+
+                        // for(let i=0;i<arr.length;i++){
+                        //     if(arr[i].user_id_creator==auth.currentUser.uid){
+                        //         arr.pop();
+                        //     }
+                        // }
+
                         setUserResults(arr);
                         // console.log(arr)
                     })
@@ -182,7 +192,7 @@ const SearchField = () => {
 
             </View>
 
-            <View style={{width: '100%'}}>
+            <View style={{width: '100%', height:'91.3%'}}>
                 <FlatList
                     data={usersResults}
                     renderItem={({item}) => <DeckLine deck={item}/>}
