@@ -79,11 +79,14 @@ const NewCollectionScreen = ({navigation}) => {
 
 
         if (collectionName) {
+            const uuid =()=>'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,(c,r)=>('x'==c?(r=Math.random()*16|0):(r&0x3|0x8)).toString(16));
+
+            const ID = uuid()+"-"+auth.currentUser.uid;
             const newCollection = collectionName.toString() + "_" + auth.currentUser.uid;
-            db.collection("collections").doc(newCollection).set({
+            db.collection("collections").doc(ID).set({
                 name: collectionName,
                 user_id: auth.currentUser.uid,
-                collection_id: newCollection,
+                collection_id: ID,
                 decks: collectionsAdded,
             })
                 .then(() => {

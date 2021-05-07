@@ -55,13 +55,16 @@ const NewDeckScreen = ({route, navigation}) => {
     const createDeck = async function () {
 
         if (deckName) {
+            const uuid =()=>'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,(c,r)=>('x'==c?(r=Math.random()*16|0):(r&0x3|0x8)).toString(16));
 
+            const ID = uuid()+"-"+auth.currentUser.uid;
+          //  console.log(ID)
             let t = tags.toLowerCase().split(" ");
             let tagsArr = (Array.from(t)).splice(0,3)
-            console.log(tagsArr )
+            //console.log(tagsArr )
 
-            const newDeck = deckName.toString() + "_" + auth.currentUser.uid;
-            db.collection("decks").doc(newDeck).set({
+           // const newDeck = deckName.toString() + "_" + auth.currentUser.uid;
+            db.collection("decks").doc(ID).set({
                 name: deckName.trim(),
                 user_id: auth.currentUser.uid,
                 user_id_creator: auth.currentUser.uid,
@@ -69,7 +72,7 @@ const NewDeckScreen = ({route, navigation}) => {
                 cards: newCard,
                 added: false,
                 score: null,
-                deck_id: newDeck,
+                deck_id: ID,
                 tags: tagsArr
             })
                 .then(() => {

@@ -26,16 +26,33 @@ const DeckInSearchScreen = ({route, navigation}) => {
     }
     const addDeck = async () => {
 
+        const uuid =()=>'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,(c,r)=>('x'==c?(r=Math.random()*16|0):(r&0x3|0x8)).toString(16));
+
+        const ID = uuid()+"-"+auth.currentUser.uid;
         const newDeck = deck.name + "_" + auth.currentUser.uid;
-        db.collection("decks").doc(newDeck).set({
+
+        let cardsArr = []
+        for(let i=0;i<deck.cards.length;i++){
+
+            let newCard = {
+                front: deck.cards[i].front,
+                back: deck.cards[i].back,
+                learned: null,
+                box: 1,
+                lastSeen:Date.now()
+            }
+            cardsArr.push(newCard)
+        }
+
+        db.collection("decks").doc(ID).set({
             name: deck.name,
             user_id: auth.currentUser.uid,
             user_id_creator: deck.user_id_creator,
             visible: false,
-            cards: deck.cards,
+            cards: cardsArr,
             added: true,
             score: null,
-            deck_id: newDeck,
+            deck_id: ID,
             tags:deck.tags
         })
             .then(() => {
