@@ -14,15 +14,6 @@ const SearchField = () => {
     const [usersResults, setUserResults] = useState([]);
     const navigation = useNavigation();
 
-    const aa = [
-        {
-            name: "a",
-        }, {
-            name: "b",
-        }
-    ]
-
-
     const listAllUsers = (nextPageToken) => {
         // List batch of users, 1000 at a time.
         admin
@@ -86,19 +77,15 @@ const SearchField = () => {
             let arr = [];
             let users = [];
             try {
-                // ідея -> викачати всю інфу  і в коді робити пошук
-                db.collection("decks")
-                    // .where("user_id", "!=",currentUser )
-                    .where("name", "==", searchFilter)
-                    // .where("user_id", "==","user_created_id" )
-                    .where("visible", "==", true)
 
+                db.collection("decks")
+                    .where("name", "==", searchFilter)
+                    .where("visible", "==", true)
                     .get()
                     .then((querySnapshot) => {
                         querySnapshot.forEach((doc) => {
                             arr.push(doc.data())
 
-                            // console.log("results"+arr);
                         });
 
 
@@ -111,7 +98,6 @@ const SearchField = () => {
                             .get()
                             .then((querySnapshot) => {
                                 querySnapshot.forEach((doc) => {
-                                    // console.log("results"+arr);
                                     for (let i = 0; i < arr.length; i++) {
 
                                         if (arr[i].deck_id != doc.data().deck_id) {
@@ -121,15 +107,8 @@ const SearchField = () => {
                                     }
                                 });
 
-                                // for(let i=0;i<arr.length;i++){
-                                //     if(arr[i].user_id_creator==auth.currentUser.uid){
-                                //         arr.pop();
-                                //     }
-                                // }
-
-
                                 setUserResults(arr);
-                                // console.log(arr)
+
                             })
 
 
@@ -147,45 +126,7 @@ const SearchField = () => {
 
         }
     }
-    // const searchUser = async () => {
-    //
-    //     const myMap = new Map();
-    //
-    //     myMap.set( 'username', searchFilter);
-    //     //  setTweets(tweetsData.data.listTweets.items);
-    //
-    //     const f= {
-    //
-    //
-    //         username: {
-    //             contains: searchFilter
-    //         }
-    //
-    //     }
-    //     const userData = await API.graphql(graphqlOperation(listUsers, { filter: f }))
-    //     const f1= {
-    //
-    //
-    //         name: {
-    //             contains: searchFilter
-    //         }
-    //
-    //     }
-    //     const userData1 = await API.graphql(graphqlOperation(listUsers, { filter: f1 }))
-    //
-    //     setUserResults([]);
-    //     let results = [];
-    //
-    //     for (let elem of userData.data.listUsers.items) {
-    //         results.push(elem.id)
-    //     }
-    //     for (let elem of userData1.data.listUsers.items) {
-    //         if(!results.includes(elem.id)){
-    //             results.push(elem.id)}
-    //     }
-    //     // console.log("result  "+JSON.stringify(results))
-    //     setUserResults(results);
-    // }
+
 
 
     return (
