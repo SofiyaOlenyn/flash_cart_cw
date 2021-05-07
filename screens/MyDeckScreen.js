@@ -335,6 +335,7 @@ const MyDeckScreen = ({route, navigation}) => {
                 </View>
             </Modal>
             <Text style={styles.deckName}>{deckName}</Text>
+            <Text style={styles.tagsName}>Tags: { (deck.tags!=null) ? deck.tags.join(" ") : ""}</Text>
             <SafeAreaView style={styles.containerEditButtons}>
                 <TouchableOpacity
                     style={styles.buttonsEdit}
@@ -515,6 +516,13 @@ const styles = StyleSheet.create({
             marginTop: 13,
             alignItems: 'center',
         },
+    tagsName:{
+        fontSize: 20,
+      //  fontWeight: "bold",
+        marginHorizontal: 25,
+        marginTop: 13,
+        alignItems: 'center',
+    },
         text: {
             fontWeight: "bold",
             margin: 15,

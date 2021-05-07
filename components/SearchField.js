@@ -49,7 +49,7 @@ const SearchField = () => {
 
         //load 100 last decks if search input is empty
 
-        if(searchFilter==""){
+        if (searchFilter == "") {
             setLoading(true);
             let arr = [];
             const currentUser = auth.currentUser.uid;
@@ -86,7 +86,7 @@ const SearchField = () => {
             let arr = [];
             let users = [];
             try {
-            // ідея -> викачати всю інфу  і в коді робити пошук
+                // ідея -> викачати всю інфу  і в коді робити пошук
                 db.collection("decks")
                     // .where("user_id", "!=",currentUser )
                     .where("name", "==", searchFilter)
@@ -101,14 +101,38 @@ const SearchField = () => {
                             // console.log("results"+arr);
                         });
 
-                        // for(let i=0;i<arr.length;i++){
-                        //     if(arr[i].user_id_creator==auth.currentUser.uid){
-                        //         arr.pop();
-                        //     }
-                        // }
 
-                        setUserResults(arr);
-                        // console.log(arr)
+                        db.collection("decks")
+                            // .where("user_id", "!=",currentUser )
+                            .where("tags", "array-contains", searchFilter.toLowerCase())
+                            // .where("user_id", "==","user_created_id" )
+                            .where("visible", "==", true)
+
+                            .get()
+                            .then((querySnapshot) => {
+                                querySnapshot.forEach((doc) => {
+                                    // console.log("results"+arr);
+                                    for (let i = 0; i < arr.length; i++) {
+
+                                        if (arr[i].deck_id != doc.data().deck_id) {
+                                            arr.push(doc.data())
+                                        }
+
+                                    }
+                                });
+
+                                // for(let i=0;i<arr.length;i++){
+                                //     if(arr[i].user_id_creator==auth.currentUser.uid){
+                                //         arr.pop();
+                                //     }
+                                // }
+
+
+                                setUserResults(arr);
+                                // console.log(arr)
+                            })
+
+
                     })
                     .catch((error) => {
                         console.log("Error getting documents: ", error);
@@ -192,11 +216,11 @@ const SearchField = () => {
 
             </View>
 
-            <View style={{width: '100%', height:'91.3%'}}>
+            <View style={{width: '100%', height: '91.3%'}}>
                 <FlatList
                     data={usersResults}
                     renderItem={({item}) => <DeckLine deck={item}/>}
-                    // keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.deck_id}
                     refreshing={loading}
                     onRefresh={searchDeck}
                 />

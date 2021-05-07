@@ -43,7 +43,8 @@ const NewCardToExistingDeckScreen = ({route, navigation}) => {
                     user_id_creator: deck.user_id_creator,
                     visible: deck.visible,
                     score: deck.score,
-                    deck_id:deck.deck_id
+                    deck_id:deck.deck_id,
+                    tags:deck.tags
                 }
 
                 console.log("newDeck" + updatedDeck)
@@ -71,7 +72,8 @@ const NewCardToExistingDeckScreen = ({route, navigation}) => {
                     user_id_creator: deck.user_id_creator,
                     visible: deck.visible,
                     score: deck.score,
-                    deck_id:deck.deck_id
+                    deck_id:deck.deck_id,
+                    tags:deck.tags
                 }
 
                 console.log("newDeck" + updatedDeck)

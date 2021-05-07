@@ -13,16 +13,20 @@ import {auth} from "../firebase"
 const EditDeckScreen = ({route, navigation}) => {
 
     const [deckName, setDeckName] = useState("");
+    const [tags, setTags] = useState("");
     const [isSelected, setSelection] = useState(false);
     const {deck} = route.params;
 
     const editDeck = async function () {
 
         const newDeckName = deck.deck_id;
+        let t = tags.toLowerCase().split(" ");
+        const tagsArr = (Array.from(t)).splice(0,3)
         const docRef = db.collection('decks').doc(newDeckName);
         const update = docRef.update({
             name: deckName,
             visible: isSelected,
+            tags:tagsArr
 
         });
         const updatedDeck = {
@@ -33,7 +37,8 @@ const EditDeckScreen = ({route, navigation}) => {
             user_id_creator: deck.user_id_creator,
             visible: isSelected,
             score: deck.score,
-            deck_id:deck.deck_id
+            deck_id:deck.deck_id,
+            tags:tagsArr
         }
         navigation.navigate("MyDeck", {
             deck: updatedDeck,
@@ -44,7 +49,12 @@ const EditDeckScreen = ({route, navigation}) => {
     useEffect(() => {
         setDeckName(deck.name)
         setSelection(deck.visible)
-
+        if(deck.tags!=null){
+            setTags(deck.tags.join(" "))
+        }
+        else {
+            setTags((" "))
+        }
     }, [])
 
     return (
@@ -54,6 +64,16 @@ const EditDeckScreen = ({route, navigation}) => {
                 value={deckName}
                 onChangeText={(value) => setDeckName(value)}
                 placeholder="Deck name"
+                autoFocus
+                maxLength={40}
+                multiline={true}
+                numberOfLines={1}
+            />
+            <Input
+                style={styles.deckName}
+                value={tags}
+                onChangeText={(value) => setTags(value)}
+                placeholder="Tags (write up to 3 tags separated by space)"
                 autoFocus
                 maxLength={40}
                 multiline={true}

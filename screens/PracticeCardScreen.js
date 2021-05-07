@@ -80,6 +80,7 @@ const PracticeCardScreen = ({route, navigation}) => {
                 user_id: deck.user_id,
                 user_id_creator: deck.user_id_creator,
                 visible: deck.visible,
+                tags:deck.tags
             }
             navigation.navigate("MyDeck", {
                 deck: updatedDeck,

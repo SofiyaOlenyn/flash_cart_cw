@@ -35,7 +35,8 @@ const DeckInSearchScreen = ({route, navigation}) => {
             cards: deck.cards,
             added: true,
             score: null,
-            deck_id: newDeck
+            deck_id: newDeck,
+            tags:deck.tags
         })
             .then(() => {
                 console.log("Document successfully written!");
@@ -58,6 +59,7 @@ const DeckInSearchScreen = ({route, navigation}) => {
             <SafeAreaView style={styles.containerButtons}>
 
                 <Text style={styles.text}>{deck.name}</Text>
+                <Text style={styles.tagsName}>Tags: { (deck.tags!=null) ? deck.tags.join(" ") : ""}</Text>
                 <TouchableOpacity
                     style={styles.buttonCreate}
                     onPress={() => addDeck()}
@@ -107,6 +109,13 @@ const styles = StyleSheet.create({
         height: 40,
         backgroundColor: "#6C7A89",
     },
+    tagsName:{
+        fontSize: 20,
+        //  fontWeight: "bold",
+        marginHorizontal: 25,
+        marginTop: 13,
+        alignItems: 'center',
+    }
 
 
 })

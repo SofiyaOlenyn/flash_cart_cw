@@ -17,6 +17,7 @@ const NewDeckScreen = ({route, navigation}) => {
 
     const [i, setI] = useState(0);
     const [deckName, setDeckName] = useState("");
+    const [tags, setTags] = useState("");
     const [isSelected, setSelection] = useState(false);
     const [ourCards, setOurCards] = useState([]);
     let {newCard} = route.params;
@@ -54,6 +55,11 @@ const NewDeckScreen = ({route, navigation}) => {
     const createDeck = async function () {
 
         if (deckName) {
+
+            let t = tags.toLowerCase().split(" ");
+            let tagsArr = (Array.from(t)).splice(0,3)
+            console.log(tagsArr )
+
             const newDeck = deckName.toString() + "_" + auth.currentUser.uid;
             db.collection("decks").doc(newDeck).set({
                 name: deckName.trim(),
@@ -63,7 +69,8 @@ const NewDeckScreen = ({route, navigation}) => {
                 cards: newCard,
                 added: false,
                 score: null,
-                deck_id:newDeck
+                deck_id: newDeck,
+                tags: tagsArr
             })
                 .then(() => {
                     console.log("Document successfully written!");
@@ -73,13 +80,16 @@ const NewDeckScreen = ({route, navigation}) => {
                 });
         }
         setDeckName("");
+        setTags("")
         setI(1);
         setOurCards([]);
         setSelection(false);
     }
 
     const reset = async () => {
+
         setDeckName("");
+        setTags("");
         setI(1);
         setSelection(false);
         setOurCards([]);
@@ -111,6 +121,15 @@ const NewDeckScreen = ({route, navigation}) => {
                 placeholder="Deck name"
                 autoFocus
                 maxLength={40}
+                multiline={true}
+                numberOfLines={1}
+            />
+            <Input
+                style={styles.deckName}
+                value={tags}
+                onChangeText={(value) => setTags(value)}
+                placeholder="Tags (write up to 3 tags separated by space)"
+                maxLength={100}
                 multiline={true}
                 numberOfLines={1}
             />
