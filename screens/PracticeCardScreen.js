@@ -37,11 +37,29 @@ const PracticeCardScreen = ({route, navigation}) => {
 
     const makeAnswer = async (answer) => {
 
+        let boxNum;
+        if(answer){
+
+            if(cardsData[i].box==4){
+                boxNum=4;
+            }
+            else{
+                boxNum=cardsData[i].box+1;
+            }
+        }
+        else{
+            if(cardsData[i].box==1){
+                boxNum=1;
+            }
+            else{
+                boxNum=cardsData[i].box-1;
+            }
+        }
         let card = {
             front: cardsData[i].front,
             back: cardsData[i].back,
             learned: answer,
-            box: cardsData[i].box,
+            box: boxNum,
             lastSeen:Date.now()
         }
         let tmp = cards.concat([card])

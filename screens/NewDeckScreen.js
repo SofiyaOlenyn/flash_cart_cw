@@ -54,7 +54,8 @@ const NewDeckScreen = ({route, navigation}) => {
     }
     const createDeck = async function () {
 
-        if (deckName) {
+
+        if (deckName && newCard) {
             const uuid =()=>'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,(c,r)=>('x'==c?(r=Math.random()*16|0):(r&0x3|0x8)).toString(16));
 
             const ID = uuid()+"-"+auth.currentUser.uid;

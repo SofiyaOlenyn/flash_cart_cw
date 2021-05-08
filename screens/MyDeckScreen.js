@@ -28,12 +28,13 @@ const MyDeckScreen = ({route, navigation}) => {
     const [notLearnedFlag, setNotLearnedFlag] = useState(false)
     const [learned, setLearned] = useState([])
     const [notLearned, setNotLearned] = useState([])
+    const [practiceDecksAmount, setPracticeDecksAmount] = useState(10)
 
     const {deck} = route.params;
     navigation.setOptions({
         headerBackTitle: "Back",
     })
-    //todo payAttention on flag and card data
+
     const fetchCards = async () => {
 
 
@@ -151,67 +152,84 @@ const MyDeckScreen = ({route, navigation}) => {
                 }
             }
 
-            if (box1.length == 0) {
-                res = box2
-            } else {
-                if (box2.length != 0) {
-                    for (let i = 0; i < box2.length; i++) {
-                        //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
-                        let Difference_In_Time = Date.now() - box2[i].lastSeen;
-                        let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
-                        console.log("Difference_In_Days 2" + Difference_In_Days)
-                        if (Difference_In_Days >= 3) {
-                            res.push(box2[i])
-                        } else {
-                            notInRes.push(box2[i])
-                        }
+
+            if (box2.length != 0) {
+                for (let i = 0; i < box2.length; i++) {
+                    //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
+                    let Difference_In_Time = Date.now() - box2[i].lastSeen;
+                    let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
+                    console.log("Difference_In_Days 2" + Difference_In_Days)
+                    if (Difference_In_Days >= 3) {
+                        res.push(box2[i])
+                    } else {
+                        notInRes.push(box2[i])
                     }
                 }
             }
-            if (box1.length == 0 && box2.length == 0) {
-                res = box3
-            } else {
-                if (box3.length != 0) {
-                    for (let i = 0; i < box3.length; i++) {
-                        //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
-                        let Difference_In_Time = Date.now() - box3[i].lastSeen;
-                        let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
-                        console.log("Difference_In_Days3 " + Difference_In_Days)
-                        if (Difference_In_Days >= 7) {
-                            res.push(box3[i])
-                        } else {
-                            notInRes.push(box3[i])
-                        }
+
+            if (box3.length != 0) {
+                for (let i = 0; i < box3.length; i++) {
+                    //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
+                    let Difference_In_Time = Date.now() - box3[i].lastSeen;
+                    let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
+                    console.log("Difference_In_Days3 " + Difference_In_Days)
+                    if (Difference_In_Days >= 7) {
+                        res.push(box3[i])
+                    } else {
+                        notInRes.push(box3[i])
                     }
                 }
             }
-            if (box1.length == 0 && box2.length == 0 && box3.length == 0) {
-                res = box4
-            } else {
-                if (box4.length != 0) {
-                    for (let i = 0; i < box4.length; i++) {
-                        //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
-                        let Difference_In_Time = Date.now() - box4[i].lastSeen;
-                        let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
-                        console.log("Difference_In_Days4 " + Difference_In_Days)
-                        if (Difference_In_Days >= 14) {
-                            res.push(box4[i])
-                        } else {
-                            notInRes.push(box4[i])
-                        }
+
+            if (box4.length != 0) {
+                for (let i = 0; i < box4.length; i++) {
+                    //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
+                    let Difference_In_Time = Date.now() - box4[i].lastSeen;
+                    let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
+                    console.log("Difference_In_Days4 " + Difference_In_Days)
+                    if (Difference_In_Days >= 14) {
+                        res.push(box4[i])
+                    } else {
+                        notInRes.push(box4[i])
                     }
                 }
+
             }
 
             //if small amount of cards to practice add randomly
-            if(res.length <= 0.3 *deck.cards.length){
+            //todo change to number of cards
 
-                while(res.length <= 0.3*deck.cards.length) {
-                    let index = Math.floor(Math.random() * notInRes.length);
-                    let removed = notInRes.splice(index, 1);
-                    res.push(removed[0])
+            // >90 -> 30
+            //  -> min 10
+            if(deck.cards.length<=10) {
+                if (res.length <= 0.3 * deck.cards.length) {
+
+                    while (res.length <= 0.3 * deck.cards.length) {
+                        let index = Math.floor(Math.random() * notInRes.length);
+                        let removed = notInRes.splice(index, 1);
+                        res.push(removed[0])
+                    }
+                }
+            }else{
+
+                if (res.length <= practiceDecksAmount) {
+                    console.log("ldcdkmc")
+                    while (res.length <= practiceDecksAmount) {
+                        let index = Math.floor(Math.random() * notInRes.length);
+                        let removed = notInRes.splice(index, 1);
+                        res.push(removed[0])
+                    }
+                }
+                if(res.length >= practiceDecksAmount+10){
+                    while (res.length >= practiceDecksAmount+10) {
+                        let index = Math.floor(Math.random() * notInRes.length);
+                        let removed = res.splice(index, 1);
+                        notInRes.push(removed[0])
+                    }
                 }
             }
+
+
             let r = res
 
             navigation.navigate("PracticeSpecial", {
