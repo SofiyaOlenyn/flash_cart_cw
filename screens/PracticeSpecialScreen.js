@@ -40,6 +40,7 @@ const PracticeSpecialScreen = ({route, navigation}) => {
 
     const makeAnswer = async (answer) => {
 
+        //console.log(JSON.stringify(cardsData[i]))
         let boxNum;
         if(answer){
 

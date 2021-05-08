@@ -16,7 +16,6 @@ import {alert} from "react-native-web";
 import {auth, db} from "../firebase";
 
 
-
 const MyDeckScreen = ({route, navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [deckName, setDeckName] = useState("");
@@ -44,13 +43,12 @@ const MyDeckScreen = ({route, navigation}) => {
 
         setCards(deck.cards)
         setDeckName(deck.name)
-        if (allFlag){
-        setCardsData(deck.cards)
-        }else{
-            if(learnedFlag){
+        if (allFlag) {
+            setCardsData(deck.cards)
+        } else {
+            if (learnedFlag) {
                 setCardsData(learned)
-            }
-            else{
+            } else {
                 setCardsData(notLearned)
             }
         }
@@ -84,12 +82,12 @@ const MyDeckScreen = ({route, navigation}) => {
 
     const editDeck = async () => {
 
-        if(!deck.added) {
+        if (!deck.added) {
 
             navigation.navigate("EditDeck", {
                 deck: deck,
             });
-       }
+        }
     }
     const setLearnedCards = () => {
 
@@ -125,21 +123,21 @@ const MyDeckScreen = ({route, navigation}) => {
         setLearnedFlag(false)
     }
     const practiceSpecialDeck = async () => {
-        if(cardsData.length==0) {}
-        else{
-             let res = [];
+        if (cardsData.length == 0) {
+        } else {
+            let res = [];
             let notInRes = [];
-             let box1 =[];
-            let box2 =[];
-            let box3 =[];
-            let box4 =[];
+            let box1 = [];
+            let box2 = [];
+            let box3 = [];
+            let box4 = [];
 
-            for (let i=0; i<deck.cards.length;i++){
+            for (let i = 0; i < deck.cards.length; i++) {
                 let k = deck.cards[i].box
-                console.log("k "+k)
+                console.log("k " + k)
                 switch (k) {
                     case 1:
-                       box1.push(deck.cards[i])
+                        box1.push(deck.cards[i])
                         res.push(deck.cards[i])
                         break;
                     case 2:
@@ -153,72 +151,83 @@ const MyDeckScreen = ({route, navigation}) => {
                 }
             }
 
-            if(box1.length==0){
+            if (box1.length == 0) {
                 res = box2
-            }
-            else{
-            if(box2.length!=0) {
-                for (let i = 0; i < box2.length; i++){
-                  //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
-                    let Difference_In_Time =   Date.now() - box2[i].lastSeen  ;
-                    let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
-                    console.log("Difference_In_Days 2"+Difference_In_Days)
-                    if(Difference_In_Days>=3){
-                        res.push(box2[i])
-                    }else{
-                        notInRes.push(box2[i])
+            } else {
+                if (box2.length != 0) {
+                    for (let i = 0; i < box2.length; i++) {
+                        //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
+                        let Difference_In_Time = Date.now() - box2[i].lastSeen;
+                        let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
+                        console.log("Difference_In_Days 2" + Difference_In_Days)
+                        if (Difference_In_Days >= 3) {
+                            res.push(box2[i])
+                        } else {
+                            notInRes.push(box2[i])
+                        }
                     }
                 }
             }
-            }
-            if(box1.length==0 && box2.length==0 ){
+            if (box1.length == 0 && box2.length == 0) {
                 res = box3
-            }
-            else{
-            if(box3.length!=0) {
-                for (let i = 0; i < box3.length; i++){
-                    //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
-                    let Difference_In_Time =   Date.now() - box3[i].lastSeen  ;
-                    let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
-                    console.log("Difference_In_Days3 "+Difference_In_Days)
-                    if(Difference_In_Days>=7){
-                        res.push(box3[i])
-                    }else{
-                        notInRes.push(box3[i])
+            } else {
+                if (box3.length != 0) {
+                    for (let i = 0; i < box3.length; i++) {
+                        //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
+                        let Difference_In_Time = Date.now() - box3[i].lastSeen;
+                        let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
+                        console.log("Difference_In_Days3 " + Difference_In_Days)
+                        if (Difference_In_Days >= 7) {
+                            res.push(box3[i])
+                        } else {
+                            notInRes.push(box3[i])
+                        }
                     }
                 }
-            }}
-            if(box1.length==0 && box2.length==0 && box3.length==0){
+            }
+            if (box1.length == 0 && box2.length == 0 && box3.length == 0) {
                 res = box4
-            }
-            else{
-            if(box4.length!=0) {
-                for (let i = 0; i < box4.length; i++){
-                    //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
-                    let Difference_In_Time =   Date.now() - box4[i].lastSeen  ;
-                    let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
-                    console.log("Difference_In_Days4 "+Difference_In_Days)
-                    if(Difference_In_Days>=14){
-                        res.push(box4[i])
-                    }else{
-                        notInRes.push(box4[i])
+            } else {
+                if (box4.length != 0) {
+                    for (let i = 0; i < box4.length; i++) {
+                        //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
+                        let Difference_In_Time = Date.now() - box4[i].lastSeen;
+                        let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
+                        console.log("Difference_In_Days4 " + Difference_In_Days)
+                        if (Difference_In_Days >= 14) {
+                            res.push(box4[i])
+                        } else {
+                            notInRes.push(box4[i])
+                        }
                     }
                 }
-            }}
-            let r= res
-            console.log("res"+res)
-        navigation.navigate("PracticeSpecial", {
-            deck: deck,
-            cardsData: r,
-            notInRes:notInRes
-        });
+            }
+
+            //if small amount of cards to practice add randomly
+            if(res.length <= 0.3 *deck.cards.length){
+
+                while(res.length <= 0.3*deck.cards.length) {
+                    let index = Math.floor(Math.random() * notInRes.length);
+                    let removed = notInRes.splice(index, 1);
+                    res.push(removed[0])
+                }
+            }
+            let r = res
+
+            navigation.navigate("PracticeSpecial", {
+                deck: deck,
+                cardsData: r,
+                notInRes: notInRes
+            });
+            // console.log("r"+JSON.stringify(r))
+            // console.log("notInRes"+JSON.stringify(notInRes))
         }
     }
 
     const practiceDeck = async () => {
 
-        if(cardsData.length==0) {}
-        else{
+        if (cardsData.length == 0) {
+        } else {
             console.log("cardsData" + cardsData)
             navigation.navigate("PracticeCard", {
                 deck: deck,
@@ -260,23 +269,23 @@ const MyDeckScreen = ({route, navigation}) => {
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         results.push(doc.data())
-                        console.log("results"+results);
+                        console.log("results" + results);
                     });
                     console.log(JSON.stringify("finally"))
-                    for(let i=0;i<results.length;i++){
-                        for(let j=0;j<results.length;j++){
-                            if(results[i].decks[j].deck_id==deck.deck_id){
+                    for (let i = 0; i < results.length; i++) {
+                        for (let j = 0; j < results.length; j++) {
+                            if (results[i].decks[j].deck_id == deck.deck_id) {
 
-                                let decksToChange=results[i].decks;
-                                console.log(JSON.stringify("sss"+decksToChange))
-                                console.log(JSON.stringify("j "+j))
+                                let decksToChange = results[i].decks;
+                                console.log(JSON.stringify("sss" + decksToChange))
+                                console.log(JSON.stringify("j " + j))
                                 decksToChange.splice(j, 1);
                                 try {
                                     const docRef = db.collection('collections').doc(results[i].collection_id);
                                     const update = docRef.update({
-                                        decks:decksToChange
+                                        decks: decksToChange
                                     });
-                                }catch (e){
+                                } catch (e) {
 
                                 }
                             }
@@ -289,13 +298,9 @@ const MyDeckScreen = ({route, navigation}) => {
                 });
 
 
-
         } catch (e) {
             console.log(e);
         }
-
-
-
 
 
         setModalVisible(false)
@@ -335,7 +340,7 @@ const MyDeckScreen = ({route, navigation}) => {
                 </View>
             </Modal>
             <Text style={styles.deckName}>{deckName}</Text>
-            <Text style={styles.tagsName}>Tags: { (deck.tags!=null) ? deck.tags.join(" ") : ""}</Text>
+            <Text style={styles.tagsName}>Tags: {(deck.tags != null) ? deck.tags.join(" ") : ""}</Text>
             <SafeAreaView style={styles.containerEditButtons}>
                 <TouchableOpacity
                     style={styles.buttonsEdit}
@@ -516,13 +521,13 @@ const styles = StyleSheet.create({
             marginTop: 13,
             alignItems: 'center',
         },
-    tagsName:{
-        fontSize: 20,
-      //  fontWeight: "bold",
-        marginHorizontal: 25,
-        marginTop: 13,
-        alignItems: 'center',
-    },
+        tagsName: {
+            fontSize: 20,
+            //  fontWeight: "bold",
+            marginHorizontal: 25,
+            marginTop: 13,
+            alignItems: 'center',
+        },
         text: {
             fontWeight: "bold",
             margin: 15,

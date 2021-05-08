@@ -44,6 +44,11 @@ const DeckInSearchScreen = ({route, navigation}) => {
             cardsArr.push(newCard)
         }
 
+        let tagsArr = []
+        if(deck.tags!=null){
+            tagsArr=deck.tags
+        }
+
         db.collection("decks").doc(ID).set({
             name: deck.name,
             user_id: auth.currentUser.uid,
@@ -53,7 +58,7 @@ const DeckInSearchScreen = ({route, navigation}) => {
             added: true,
             score: null,
             deck_id: ID,
-            tags:deck.tags
+            tags:tagsArr
         })
             .then(() => {
                 console.log("Document successfully written!");
