@@ -3,6 +3,8 @@ import {KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View} from 're
 import {Button, Input, Image} from 'react-native-elements'
 import {StatusBar} from "expo-status-bar";
 import {auth} from "../firebase"
+import {db} from "../firebase";
+import * as firebase from "firebase";
 
 const LoginScreen = ({navigation}) => {
 
@@ -18,7 +20,15 @@ const LoginScreen = ({navigation}) => {
         return unsubscribe;
     }, [])
 
+    const registerGoogle = () => {
+        var provider = new firebase.auth.GoogleAuthProvider();
 
+        auth.signInWithPopup(provider).then(function (result) {
+
+        }).catch(function (error) {
+
+        });
+    };
     const doSingIn = async () => {
         try {
             console.error(email)
@@ -76,6 +86,21 @@ const LoginScreen = ({navigation}) => {
                 <Text style={styles.text}>Login</Text>
 
             </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.buttonGoogle}
+                onPress={registerGoogle}
+
+            >
+                <Image source={{
+                    uri: "https://developers.google.com/identity/images/g-logo.png",
+
+                }}
+                       style={{width: 25, height: 25, marginRight: 10}}
+                />
+                <Text>Log In with Google</Text>
+
+            </TouchableOpacity>
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('Register')}
@@ -104,11 +129,23 @@ const styles = StyleSheet.create({
             padding: 10,
             backgroundColor: "white",
         },
-    text:{
-        fontWeight: "bold",
-    },
+        text: {
+            fontWeight: "bold",
+        },
         inputContainer: {
             width: 300,
+        },
+        buttonGoogle: {
+            alignItems: "center",
+            justifyContent: "center",
+            width: 200,
+            marginTop: 10,
+            height: 30,
+            borderRadius: 20,
+            backgroundColor: "white",
+            borderColor: "#6C7A89",
+            borderWidth: 1,
+            flexDirection: 'row',
         },
         button: {
             alignItems: "center",
