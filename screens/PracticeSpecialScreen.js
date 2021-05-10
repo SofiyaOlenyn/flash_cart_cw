@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {auth, db} from "../firebase";
+import * as firebase from "firebase";
 
 
 const PracticeSpecialScreen = ({route, navigation}) => {
@@ -9,7 +10,9 @@ const PracticeSpecialScreen = ({route, navigation}) => {
     const {deck} = route.params;
     const {cardsData} = route.params;
     const {notInRes} = route.params;
-
+    const [imageUrlFront, setImageUrlFront] = useState("");
+    const [imageUrlBack, setImageUrlBack] = useState("");
+    const [image, setImage] = useState("");
 
     // const {learnAll} = route.params;
     const [cards, setCards] = useState([]);
@@ -19,10 +22,40 @@ const PracticeSpecialScreen = ({route, navigation}) => {
 
 
     const flipCart = async () => {
+        setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Vector_Loading.svg/1024px-Vector_Loading.svg.png")
+
         if (front) {
+            if (cardsData[i].backImage) {
+                let imageRef = firebase.storage().ref('/' + cardsData[i].backImage);
+                imageRef
+                    .getDownloadURL()
+                    .then((url) => {
+                        //from url you can fetched the uploaded image easily
+                        setImageUrlBack(url)
+                        setImage(url);
+                    })
+                    .catch((e) => console.log('getting downloadURL of image error => ', e));
+            } else {
+                setImage("")
+            }
+            //setImage(imageUrlBack)
             setText(cardsData[i].back)
             setFront(false)
         } else {
+            if (cardsData[i].frontImage) {
+                let imageRef = firebase.storage().ref('/' + cardsData[i].frontImage);
+                imageRef
+                    .getDownloadURL()
+                    .then((url) => {
+                        //from url you can fetched the uploaded image easily
+                        setImageUrlFront(url)
+                        setImage(url);
+                    })
+                    .catch((e) => console.log('getting downloadURL of image error => ', e));
+            } else {
+                setImage("")
+            }
+            //  setImage(imageUrlFront)
             setText(cardsData[i].front)
             setFront(true)
         }
@@ -39,24 +72,22 @@ const PracticeSpecialScreen = ({route, navigation}) => {
     }
 
     const makeAnswer = async (answer) => {
+        setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Vector_Loading.svg/1024px-Vector_Loading.svg.png")
 
         //console.log(JSON.stringify(cardsData[i]))
         let boxNum;
-        if(answer){
+        if (answer) {
 
-            if(cardsData[i].box==4){
-                boxNum=4;
+            if (cardsData[i].box == 4) {
+                boxNum = 4;
+            } else {
+                boxNum = cardsData[i].box + 1;
             }
-            else{
-                boxNum=cardsData[i].box+1;
-            }
-        }
-        else{
-            if(cardsData[i].box==1){
-                boxNum=1;
-            }
-            else{
-                boxNum=cardsData[i].box-1;
+        } else {
+            if (cardsData[i].box == 1) {
+                boxNum = 1;
+            } else {
+                boxNum = cardsData[i].box - 1;
             }
         }
         console.log(boxNum)
@@ -65,7 +96,7 @@ const PracticeSpecialScreen = ({route, navigation}) => {
             back: cardsData[i].back,
             learned: answer,
             box: boxNum,
-            lastSeen:Date.now()
+            lastSeen: Date.now()
         }
         let tmp = cards.concat([card])
         setCards(tmp)
@@ -92,7 +123,7 @@ const PracticeSpecialScreen = ({route, navigation}) => {
             //     cardsArr = tmp
             // }
 
-            cardsArr=tmp.concat(notInRes)
+            cardsArr = tmp.concat(notInRes)
             // let score = countScore(cardsArr);
             const docRef = db.collection('decks').doc(deck.deck_id);
             const updateTimestamp = docRef.update({
@@ -108,23 +139,65 @@ const PracticeSpecialScreen = ({route, navigation}) => {
                 user_id: deck.user_id,
                 user_id_creator: deck.user_id_creator,
                 visible: deck.visible,
-                tags:deck.tags
+                tags: deck.tags
             }
             navigation.navigate("MyDeck", {
                 deck: updatedDeck,
             });
 
         } else {
-
+            if(cardsData[i+1].frontImage) {
+                let imageRef = firebase.storage().ref('/' +cardsData[i+1].frontImage);
+                imageRef
+                    .getDownloadURL()
+                    .then((url) => {
+                        //from url you can fetched the uploaded image easily
+                        setImageUrlFront(url)
+                        setImage(url);
+                    })
+                    .catch((e) => console.log('getting downloadURL of image error => ', e));
+            }else{
+                setImage("")
+            }
             setText(cardsData[i + 1].front)
             setFront(true)
             let k = i + 1
             setI(k)
         }
     }
-
+    const loadImageData = async () => {
+        setImage("")
+        if (cardsData[i].frontImage) {
+            let imageRef = firebase.storage().ref('/' + cardsData[i].frontImage);
+            imageRef
+                .getDownloadURL()
+                .then((url) => {
+                    //from url you can fetched the uploaded image easily
+                    setImageUrlFront(url)
+                    setImage(url);
+                })
+                .catch((e) => console.log('getting downloadURL of image error => ', e));
+        }
+        if (cardsData[i].backImage) {
+            let imageRef = firebase.storage().ref('/' + cardsData[i].backImage);
+            imageRef
+                .getDownloadURL()
+                .then((url) => {
+                    //from url you can fetched the uploaded image easily
+                    setImageUrlBack(url)
+                })
+                .catch((e) => console.log('getting downloadURL of image error => ', e));
+        }
+    }
     useEffect(() => {
-        setText(cardsData[i].front)
+        setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Vector_Loading.svg/1024px-Vector_Loading.svg.png")
+
+        loadImageData().then(r => {
+            setText(cardsData[i].front)
+            console.log(cardsData[i].frontImage)
+            setImage(imageUrlFront);
+
+        });
     }, [])
 
     return (
@@ -133,7 +206,12 @@ const PracticeSpecialScreen = ({route, navigation}) => {
         <View style={styles.container}>
             <Text style={styles.counter}>{i + 1}/{cardsData.length}</Text>
             <View style={styles.flashcard}>
-
+                <Image
+                    source={{uri: image}}
+                    style={
+                        image == "" ? styles.withoutImage : styles.image
+                    }
+                />
                 <Text style={styles.text}>{text}</Text>
 
             </View>
@@ -152,7 +230,7 @@ const PracticeSpecialScreen = ({route, navigation}) => {
                     //   style={styles.buttonCreate}
                                   onPress={() => makeAnswer(false)}
                 >
-                    <Text style={styles.text} > Not quite </Text>
+                    <Text style={styles.text}> Not quite </Text>
 
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.answerButton}
@@ -193,8 +271,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: "#A3C6C4",
         borderWidth: 3,
-        width:100,
-        height:50,
+        width: 100,
+        height: 50,
     },
     flipButton: {
         fontWeight: "bold",
@@ -235,5 +313,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
     }
-    ,
+    , image: {
+        width: 200,
+        height: 200,
+    },
+    withoutImage: {}
 })
