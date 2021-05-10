@@ -5,7 +5,8 @@ import {StatusBar} from "expo-status-bar";
 import {auth} from "../firebase"
 import {db} from "../firebase";
 import * as firebase from "firebase";
-
+import Expo from "expo"
+import * as Google from 'expo-google-app-auth'
 const LoginScreen = ({navigation}) => {
 
     const [email, setEmail] = useState("");
@@ -20,11 +21,33 @@ const LoginScreen = ({navigation}) => {
         return unsubscribe;
     }, [])
 
-    const registerGoogle = () => {
+    const registerGoogle = async () => {
+        //
+        // const loginResult = await Expo.Google.logInAsync({
+        //    // androidClientId: 'My android ClientId',
+        //    // androidStandaloneAppClientId: 'My android standalone ClientId',
+        //     behavior: 'web',
+        //     iosClientId: '467895483224-7nl79vu8ao3ncdal3jt6cldbdg7mk09b.apps.googleusercontent.com',
+        //     scopes: ['profile', 'email'],
+        // });
+        // if(loginResult.type === 'success'){
+        //     console.log(loginResult.user.name + " : " + loginResult.user.id + " : " + loginResult.user.email)
+        //     const provider = firebase.auth.GoogleAuthProvider
+        //     const credential = provider.credential(null, loginResult.accessToken)
+        //    // Actions.course();
+        //     return firebase.auth().signInWithCredential(credential)
+        // }else {
+        //    // Alert.alert("Login Error");
+        // }
+        console.log("1")
         var provider = new firebase.auth.GoogleAuthProvider();
 
-        auth.signInWithPopup(provider).then(function (result) {
+        console.log("2")
+        let userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
 
+        });
+        auth.signInWithPopup(provider).then(function (result) {
+            console.log("3")
         }).catch(function (error) {
 
         });

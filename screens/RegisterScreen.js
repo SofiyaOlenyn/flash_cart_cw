@@ -55,14 +55,14 @@ const RegisterScreen = ({navigation}) => {
                     value={password}
                     onChangeText={(text) => setPassword(text)}
                 />
-                <Input
-                    placeholder='Profile Picture URL (option)'
+                {/*<Input*/}
+                {/*    placeholder='Profile Picture URL (option)'*/}
 
-                    type='text'
-                    value={imageUrl}
-                    onChangeText={(text) => setImageUrl(text)}
-                    onSubmitEditing={register}
-                />
+                {/*    type='text'*/}
+                {/*    value={imageUrl}*/}
+                {/*    onChangeText={(text) => setImageUrl(text)}*/}
+                {/*    onSubmitEditing={register}*/}
+                {/*/>*/}
 
             </View>
             <TouchableOpacity

@@ -11,6 +11,7 @@ import {CheckBox, Input} from "react-native-elements";
 import CardAdd from "../components/CardAdd";
 import {db} from "../firebase";
 import {auth} from "../firebase"
+import * as firebase from "firebase";
 
 const NewDeckScreen = ({route, navigation}) => {
 
@@ -52,6 +53,7 @@ const NewDeckScreen = ({route, navigation}) => {
 
         //TODO if deckName is empty alarm
     }
+
     const createDeck = async function () {
 
 
@@ -64,13 +66,34 @@ const NewDeckScreen = ({route, navigation}) => {
             let tagsArr = (Array.from(t)).splice(0,3)
             //console.log(tagsArr )
 
+            // await uploadImage(newCard[0].imageUrlBack)
+            //
+             let cardsArr =[]
+
+            for(let i=0; i<newCard.length; i++){
+
+
+                let card = {
+                    front: newCard[i].front,
+                    frontImage:  newCard[i].frontImage,
+                    back: newCard[i].back,
+                    backImage: newCard[i].backImage,
+                    learned: null,
+                    box: 1,
+                    lastSeen: Date.now()
+                }
+                cardsArr.push(card)
+
+            }
+
+
            // const newDeck = deckName.toString() + "_" + auth.currentUser.uid;
             db.collection("decks").doc(ID).set({
                 name: deckName.trim(),
                 user_id: auth.currentUser.uid,
                 user_id_creator: auth.currentUser.uid,
                 visible: isSelected,
-                cards: newCard,
+                cards: cardsArr,
                 added: false,
                 score: null,
                 deck_id: ID,
@@ -91,7 +114,27 @@ const NewDeckScreen = ({route, navigation}) => {
     }
 
     const reset = async () => {
+        for(let i=0; i<newCard.length; i++) {
 
+            if (newCard[i].frontImage) {
+                let imageRef = firebase.storage().ref('/' + newCard[i].frontImage);
+                imageRef
+                    .delete()
+                    .then(() => {
+                        console.log(`${newCard[i].frontImage}has been deleted successfully.`);
+                    })
+                    .catch((e) => console.log('error on image deletion => ', e));
+            }
+            if (newCard[i].backImage) {
+                let imageRef = firebase.storage().ref('/' + newCard[i].backImage);
+                imageRef
+                    .delete()
+                    .then(() => {
+                        console.log(`${newCard[i].backImage}has been deleted successfully.`);
+                    })
+                    .catch((e) => console.log('error on image deletion => ', e));
+            }
+        }
         setDeckName("");
         setTags("");
         setI(1);
