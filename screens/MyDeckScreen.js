@@ -14,6 +14,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import CardInDeck from "../components/CardInDeck";
 import {alert} from "react-native-web";
 import {auth, db} from "../firebase";
+import * as firebase from "firebase";
 
 
 const MyDeckScreen = ({route, navigation}) => {
@@ -201,7 +202,7 @@ const MyDeckScreen = ({route, navigation}) => {
 
             // >90 -> 30
             //  -> min 10
-            if(deck.cards.length<=10) {
+            if (deck.cards.length <= 10) {
                 if (res.length <= 0.3 * deck.cards.length) {
 
                     while (res.length <= 0.3 * deck.cards.length) {
@@ -210,7 +211,7 @@ const MyDeckScreen = ({route, navigation}) => {
                         res.push(removed[0])
                     }
                 }
-            }else{
+            } else {
 
                 if (res.length <= practiceDecksAmount) {
                     console.log("ldcdkmc")
@@ -220,8 +221,8 @@ const MyDeckScreen = ({route, navigation}) => {
                         res.push(removed[0])
                     }
                 }
-                if(res.length >= practiceDecksAmount+10){
-                    while (res.length >= practiceDecksAmount+10) {
+                if (res.length >= practiceDecksAmount + 10) {
+                    while (res.length >= practiceDecksAmount + 10) {
                         let index = Math.floor(Math.random() * notInRes.length);
                         let removed = res.splice(index, 1);
                         notInRes.push(removed[0])
@@ -247,6 +248,47 @@ const MyDeckScreen = ({route, navigation}) => {
         if (cardsData.length == 0) {
         } else {
             console.log("cardsData" + cardsData)
+
+          //   let cardsArr = []
+          //
+          // let frI = null;
+          //   let bI = null;
+          //   for (let i = 0; i < cardsData.length; i++) {
+          //
+          //       if(cardsData[i].frontImage) {
+          //           let imageRef = firebase.storage().ref('/' +cardsData[i].frontImage);
+          //           imageRef
+          //               .getDownloadURL()
+          //               .then((url) => {
+          //                   //from url you can fetched the uploaded image easily
+          //                   frI= url
+          //               })
+          //               .catch((e) => console.log('getting downloadURL of image error => ', e));
+          //       }
+          //       if(cardsData[i].backImage) {
+          //           let imageRef = firebase.storage().ref('/' +cardsData[i].backImage);
+          //           imageRef
+          //               .getDownloadURL()
+          //               .then((url) => {
+          //                   //from url you can fetched the uploaded image easily
+          //                   bI = url
+          //               })
+          //               .catch((e) => console.log('getting downloadURL of image error => ', e));
+          //       }
+          //       let card = {
+          //           front: cardsData[i].front,
+          //           frontImage: cardsData[i].frontImage,
+          //           frontUrl:frI,
+          //           back: cardsData[i].back,
+          //           backImage: cardsData[i].backImage,
+          //           backUrl:bI,
+          //           learned: null,
+          //           box: 1,
+          //           lastSeen: Date.now()
+          //       }
+          //       cardsArr.push(card)
+          //
+          //   }
             navigation.navigate("PracticeCard", {
                 deck: deck,
                 cardsData: cardsData,

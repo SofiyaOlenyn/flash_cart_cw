@@ -1,7 +1,9 @@
+
 import React, {useEffect, useState} from 'react';
 
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {auth, db} from "../firebase";
+import * as firebase from "firebase";
 
 
 const PracticeCardScreen = ({route, navigation}) => {
@@ -12,14 +14,48 @@ const PracticeCardScreen = ({route, navigation}) => {
     const [cards, setCards] = useState([]);
     const [text, setText] = useState("");
     const [front, setFront] = useState(true);
+    const [imageUrlFront, setImageUrlFront] = useState("");
+    const [imageUrlBack, setImageUrlBack] = useState("");
+    const [image, setImage] = useState("");
     const [i, setI] = useState(0);
 
 
     const flipCart = async () => {
+
+        setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Vector_Loading.svg/1024px-Vector_Loading.svg.png")
+
         if (front) {
+            if(cardsData[i].backImage) {
+                let imageRef = firebase.storage().ref('/' +cardsData[i].backImage);
+                imageRef
+                    .getDownloadURL()
+                    .then((url) => {
+                        //from url you can fetched the uploaded image easily
+                        setImageUrlBack(url)
+                        setImage(url);
+                    })
+                    .catch((e) => console.log('getting downloadURL of image error => ', e));
+            }else{
+                setImage("")
+            }
+            //setImage(imageUrlBack)
             setText(cardsData[i].back)
             setFront(false)
         } else {
+            if(cardsData[i].frontImage) {
+                let imageRef = firebase.storage().ref('/' +cardsData[i].frontImage);
+                imageRef
+                    .getDownloadURL()
+                    .then((url) => {
+                        //from url you can fetched the uploaded image easily
+                        setImageUrlFront(url)
+                        setImage(url);
+                    })
+                    .catch((e) => console.log('getting downloadURL of image error => ', e));
+            }else{
+                setImage("")
+            }
+          //  setImage(imageUrlFront)
             setText(cardsData[i].front)
             setFront(true)
         }
@@ -36,6 +72,7 @@ const PracticeCardScreen = ({route, navigation}) => {
     }
 
     const makeAnswer = async (answer) => {
+        setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Vector_Loading.svg/1024px-Vector_Loading.svg.png")
 
         let boxNum;
         if(answer){
@@ -57,7 +94,9 @@ const PracticeCardScreen = ({route, navigation}) => {
         }
         let card = {
             front: cardsData[i].front,
+            frontImage: cardsData[i].frontImage,
             back: cardsData[i].back,
+            backImage: cardsData[i].backImage,
             learned: answer,
             box: boxNum,
             lastSeen:Date.now()
@@ -71,7 +110,9 @@ const PracticeCardScreen = ({route, navigation}) => {
                 let j = 0;
 
                 for (let k = 0; k < deck.cards.length; k++) {
-                    if (deck.cards[k].back == tmp[j].back && deck.cards[k].front == tmp[j].front) {
+                    if (deck.cards[k].back == tmp[j].back && deck.cards[k].front == tmp[j].front &&
+                        deck.cards[k].backImage == tmp[j].backImage && deck.cards[k].frontImage == tmp[j].frontImage
+                    ) {
                         cardsArr = cardsArr.concat([tmp[j]])
                         j++
                     } else {
@@ -106,15 +147,67 @@ const PracticeCardScreen = ({route, navigation}) => {
 
         } else {
 
+            if(cardsData[i+1].frontImage) {
+                let imageRef = firebase.storage().ref('/' +cardsData[i+1].frontImage);
+                imageRef
+                    .getDownloadURL()
+                    .then((url) => {
+                        //from url you can fetched the uploaded image easily
+                        setImageUrlFront(url)
+                        setImage(url);
+                    })
+                    .catch((e) => console.log('getting downloadURL of image error => ', e));
+            }else{
+                setImage("")
+            }
             setText(cardsData[i + 1].front)
             setFront(true)
+
+
             let k = i + 1
             setI(k)
+          //await loadImageData(i);
+
+
+
         }
     }
+    const loadImageData = async () =>
 
+    {
+        setImage("")
+        if(cardsData[i].frontImage) {
+            let imageRef = firebase.storage().ref('/' +cardsData[i].frontImage);
+            imageRef
+                .getDownloadURL()
+                .then((url) => {
+                    //from url you can fetched the uploaded image easily
+                    setImageUrlFront(url)
+                    setImage(url);
+                })
+                .catch((e) => console.log('getting downloadURL of image error => ', e));
+        }
+        if(cardsData[i].backImage) {
+            let imageRef = firebase.storage().ref('/' +cardsData[i].backImage);
+            imageRef
+                .getDownloadURL()
+                .then((url) => {
+                    //from url you can fetched the uploaded image easily
+                    setImageUrlBack(url)
+                })
+                .catch((e) => console.log('getting downloadURL of image error => ', e));
+        }
+    }
     useEffect(() => {
-        setText(cardsData[i].front)
+        setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Vector_Loading.svg/1024px-Vector_Loading.svg.png")
+
+        loadImageData().then(r => {
+            setText(cardsData[i].front)
+            console.log(cardsData[i].frontImage)
+            setImage(imageUrlFront);
+
+        });
+
     }, [])
 
     return (
@@ -123,7 +216,12 @@ const PracticeCardScreen = ({route, navigation}) => {
         <View style={styles.container}>
             <Text style={styles.counter}>{i + 1}/{cardsData.length}</Text>
             <View style={styles.flashcard}>
-
+                <Image
+                    source={{uri: image}}
+                    style={
+                        image == "" ? styles.withoutImage : styles.image
+                    }
+                />
                 <Text style={styles.text}>{text}</Text>
 
             </View>
@@ -140,14 +238,14 @@ const PracticeCardScreen = ({route, navigation}) => {
 
                 <TouchableOpacity style={styles.answerButton}
                     //   style={styles.buttonCreate}
-                    onPress={() => makeAnswer(false)}
+                                  onPress={() => makeAnswer(false)}
                 >
                     <Text style={styles.text} > Not quite </Text>
 
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.answerButton}
                     // style={styles.buttonCreate}
-                    onPress={() => makeAnswer(true)}
+                                  onPress={() => makeAnswer(true)}
                 >
                     <Text style={styles.text}> Learned </Text>
 
@@ -183,7 +281,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: "#A3C6C4",
         borderWidth: 3,
-          width:100,
+        width:100,
         height:50,
     },
     flipButton: {
@@ -225,5 +323,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
     }
-    ,
+    ,image: {
+        width: 200,
+        height: 200,
+    },
+    withoutImage: {}
 })

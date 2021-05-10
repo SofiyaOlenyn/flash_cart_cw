@@ -68,7 +68,7 @@ const NewDeckScreen = ({route, navigation}) => {
 
             // await uploadImage(newCard[0].imageUrlBack)
             //
-             let cardsArr =[]
+            let cardsArr =[]
 
             for(let i=0; i<newCard.length; i++){
 
