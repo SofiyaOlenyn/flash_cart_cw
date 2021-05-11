@@ -19,8 +19,8 @@ const CardInDeck = ({card, deck}) => {
     }
 
     useEffect(() => {
-        if(card.frontImage) {
-            let imageRef = firebase.storage().ref('/' +card.frontImage);
+        if (card.frontImage) {
+            let imageRef = firebase.storage().ref('/' + card.frontImage);
             imageRef
                 .getDownloadURL()
                 .then((url) => {
@@ -29,8 +29,8 @@ const CardInDeck = ({card, deck}) => {
                 })
                 .catch((e) => console.log('getting downloadURL of image error => ', e));
         }
-        if(card.backImage) {
-            let imageRef = firebase.storage().ref('/' +card.backImage);
+        if (card.backImage) {
+            let imageRef = firebase.storage().ref('/' + card.backImage);
             imageRef
                 .getDownloadURL()
                 .then((url) => {
@@ -44,8 +44,7 @@ const CardInDeck = ({card, deck}) => {
     }, [])
 
 
-    if ( imageUrlFront ===imageUrlBack &&imageUrlBack == "")
-    {
+    if (imageUrlFront === imageUrlBack && imageUrlBack == "") {
         return (
 
 
@@ -76,11 +75,12 @@ const CardInDeck = ({card, deck}) => {
                         }
                     />
                 </SafeAreaView>
-                < SafeAreaView style={styles.containerEditButtons}>
+                < SafeAreaView style={styles.containerEditButtons1}>
                     <TouchableOpacity
-                        style={styles.buttonsEdit}
+                        style={styles.buttonsEdit1}
                         onPress={() => openDeckScreen()}
                     >
+
                         <MaterialCommunityIcons name="grease-pencil" color={"#354649"} size={20}/>
                     </TouchableOpacity>
                 </SafeAreaView>
@@ -210,7 +210,6 @@ const styles = StyleSheet.create({
             height: 200,
 
 
-
         },
         imageTwo: {
             flex: 1,
@@ -237,9 +236,23 @@ const styles = StyleSheet.create({
         }
         ,
         buttonsEdit: {
-            position:"absolute",
-            top:-50,
-            right:0,
+            // position:"absolute",
+            // top:-150,
+            // right:0,
+            marginHorizontal: 5,
+            marginBottom: 10,
+        },
+        containerEditButtons1: {
+            //  flexDirection: 'row',
+            alignSelf: 'flex-end',
+            marginRight: 10,
+
+        }
+        ,
+        buttonsEdit1: {
+             position:"absolute",
+             top:-150,
+             right:0,
             marginHorizontal: 5,
             marginBottom: 10,
         },

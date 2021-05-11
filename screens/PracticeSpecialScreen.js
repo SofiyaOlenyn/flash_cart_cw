@@ -93,35 +93,19 @@ const PracticeSpecialScreen = ({route, navigation}) => {
         console.log(boxNum)
         let card = {
             front: cardsData[i].front,
+            frontImage: cardsData[i].frontImage,
             back: cardsData[i].back,
+            backImage: cardsData[i].backImage,
             learned: answer,
             box: boxNum,
-            lastSeen: Date.now()
+            lastSeen:Date.now()
         }
+
         let tmp = cards.concat([card])
         setCards(tmp)
         if (cardsData.length == i + 1) {
 
             let cardsArr = []
-
-
-            // if (!learnAll)
-            {
-                // let j = 0;
-                //
-                // for (let k = 0; k < deck.cards.length; k++) {
-                //     if (deck.cards[k].back == tmp[j].back && deck.cards[k].front == tmp[j].front) {
-                //         cardsArr = cardsArr.concat([tmp[j]])
-                //         j++
-                //     } else {
-                //         cardsArr = cardsArr.concat([deck.cards[k]])
-                //     }
-                // }
-            }
-            // else
-            //     {
-            //     cardsArr = tmp
-            // }
 
             cardsArr = tmp.concat(notInRes)
             // let score = countScore(cardsArr);
