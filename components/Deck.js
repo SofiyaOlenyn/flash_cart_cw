@@ -14,6 +14,7 @@ const Deck = ({deck}) => {
     const openDeckScreen = async function () {
         navigation.navigate("MyDeck", {
             deck: deck,
+            amount:10
         });
     }
 

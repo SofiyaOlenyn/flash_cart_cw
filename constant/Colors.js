@@ -7,3 +7,7 @@ export default {
         background: '#E0E7E9',
 
 };
+
+let amount = 10;
+
+export {amount};

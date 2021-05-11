@@ -32,12 +32,13 @@ const MyDeckScreen = ({route, navigation}) => {
     const [practiceDecksAmount, setPracticeDecksAmount] = useState(10)
 
     const {deck} = route.params;
+    const {amount} = route.params;
     navigation.setOptions({
         headerBackTitle: "Back",
     })
 
     const fetchCards = async () => {
-
+        setPracticeDecksAmount(amount)
 
         setLoading(true);
 
@@ -88,6 +89,7 @@ const MyDeckScreen = ({route, navigation}) => {
 
             navigation.navigate("EditDeck", {
                 deck: deck,
+                amount:amount
             });
         }
     }
@@ -212,8 +214,24 @@ const MyDeckScreen = ({route, navigation}) => {
                     }
                 }
             } else {
-
-                if (res.length <= practiceDecksAmount) {
+               if (practiceDecksAmount > deck.cards.length){
+                   if (res.length <= deck.cards.length ) {
+                       console.log("ldcdkmc")
+                       while (res.length <= deck.cards.length) {
+                           let index = Math.floor(Math.random() * notInRes.length);
+                           let removed = notInRes.splice(index, 1);
+                           res.push(removed[0])
+                       }
+                   }
+                   if (res.length > deck.cards.length) {
+                       while (res.length > deck.cards.length ) {
+                           let index = Math.floor(Math.random() * notInRes.length);
+                           let removed = res.splice(index, 1);
+                           notInRes.push(removed[0])
+                       }
+                   }
+               }else{
+                if (res.length <= practiceDecksAmount ) {
                     console.log("ldcdkmc")
                     while (res.length <= practiceDecksAmount) {
                         let index = Math.floor(Math.random() * notInRes.length);
@@ -221,14 +239,14 @@ const MyDeckScreen = ({route, navigation}) => {
                         res.push(removed[0])
                     }
                 }
-                if (res.length >= practiceDecksAmount + 10) {
-                    while (res.length >= practiceDecksAmount + 10) {
+                if (res.length > practiceDecksAmount) {
+                    while (res.length > practiceDecksAmount ) {
                         let index = Math.floor(Math.random() * notInRes.length);
                         let removed = res.splice(index, 1);
                         notInRes.push(removed[0])
                     }
                 }
-            }
+            }}
 
 
             let r = res
