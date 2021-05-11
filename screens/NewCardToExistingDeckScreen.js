@@ -119,10 +119,10 @@ const NewCardToExistingDeckScreen = ({route, navigation}) => {
     const pickImage = async (side) => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
                 aspect: [4, 3],
-                quality: 1,
+                quality: 0,
             });
             if (!result.cancelled) {
                 if(side){

@@ -169,12 +169,12 @@ const EditCardInMyScreen = ({route, navigation}) => {
         {
             ID2=card.backImage
         }
-        if(imageUrlFront != "" && card.frontImage==null ) {
+        if(imageUrlFront != "" && imgBackChanged ) {
             const uuid1 = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c, r) => ('x' == c ? (r = Math.random() * 16 | 0) : (r & 0x3 | 0x8)).toString(16));
             ID1 = uuid1() + "-" + auth.currentUser.uid;
             await uploadImage(ID1,imageUrlFront)
         }
-        if(imageUrlBack != "" && card.backImage==null) {
+        if(imageUrlBack != "" && imgBackChanged) {
             const uuid2 = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c, r) => ('x' == c ? (r = Math.random() * 16 | 0) : (r & 0x3 | 0x8)).toString(16));
             ID2 = uuid2() + "-" + auth.currentUser.uid;
             await uploadImage(ID2,imageUrlBack)
@@ -227,10 +227,10 @@ const EditCardInMyScreen = ({route, navigation}) => {
     const pickImage = async (side) => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
                 aspect: [4, 3],
-                quality: 1,
+                quality: 0,
             });
             if (!result.cancelled) {
                 if (side) {
