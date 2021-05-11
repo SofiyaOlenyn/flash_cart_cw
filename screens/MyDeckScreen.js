@@ -89,7 +89,7 @@ const MyDeckScreen = ({route, navigation}) => {
 
             navigation.navigate("EditDeck", {
                 deck: deck,
-                amount:amount
+                amount: amount
             });
         }
     }
@@ -126,6 +126,186 @@ const MyDeckScreen = ({route, navigation}) => {
         setNotLearnedFlag(true)
         setLearnedFlag(false)
     }
+    const testDecks = async () => {
+        if (cardsData.length < 4) {
+        } else {
+            let res = [];
+            let notInRes = [];
+
+            for (let i = 0; i < deck.cards.length; i++) {
+                if (deck.cards[i].frontImage) {
+                    notInRes.push(deck.cards[i])
+                } else {
+                    res.push(deck.cards[i])
+                }
+
+            }
+            if (res.length < 4) {
+
+            } else {
+
+                if (res.length==4 || practiceDecksAmount > res.length){
+
+                    navigation.navigate("TestingCards", {
+                        deck: deck,
+                        cardsData: res,
+                        notInRes: notInRes
+                    });
+                    return;
+                }
+
+
+                {
+                    if (res.length > practiceDecksAmount) {
+                        while (res.length > practiceDecksAmount) {
+                            let index = Math.floor(Math.random() * notInRes.length);
+                            let removed = res.splice(index, 1);
+                            notInRes.push(removed[0])
+                        }
+                    }
+                }
+                // let box1 = [];
+                // let box2 = [];
+                // let box3 = [];
+                // let box4 = [];
+                //
+                // for (let i = 0; i < deck.cards.length; i++) {
+                //     let k = deck.cards[i].box
+                //     console.log("k " + k)
+                //     switch (k) {
+                //         case 1:
+                //             box1.push(deck.cards[i])
+                //             res.push(deck.cards[i])
+                //             break;
+                //         case 2:
+                //             box2.push(deck.cards[i])
+                //             break;
+                //         case 3:
+                //             box3.push(deck.cards[i])
+                //             break;
+                //         default:
+                //             box4.push(deck.cards[i])
+                //     }
+                // }
+                //
+                //
+                // if (box2.length != 0) {
+                //     for (let i = 0; i < box2.length; i++) {
+                //         //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
+                //         let Difference_In_Time = Date.now() - box2[i].lastSeen;
+                //         let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
+                //         console.log("Difference_In_Days 2" + Difference_In_Days)
+                //         if (Difference_In_Days >= 3) {
+                //             res.push(box2[i])
+                //         } else {
+                //             notInRes.push(box2[i])
+                //         }
+                //     }
+                // }
+                //
+                // if (box3.length != 0) {
+                //     for (let i = 0; i < box3.length; i++) {
+                //         //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
+                //         let Difference_In_Time = Date.now() - box3[i].lastSeen;
+                //         let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
+                //         console.log("Difference_In_Days3 " + Difference_In_Days)
+                //         if (Difference_In_Days >= 7) {
+                //             res.push(box3[i])
+                //         } else {
+                //             notInRes.push(box3[i])
+                //         }
+                //     }
+                // }
+                //
+                // if (box4.length != 0) {
+                //     for (let i = 0; i < box4.length; i++) {
+                //         //  console.log("Difference_In_Days "+Date.parse("05/05/2021"))
+                //         let Difference_In_Time = Date.now() - box4[i].lastSeen;
+                //         let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
+                //         console.log("Difference_In_Days4 " + Difference_In_Days)
+                //         if (Difference_In_Days >= 14) {
+                //             res.push(box4[i])
+                //         } else {
+                //             notInRes.push(box4[i])
+                //         }
+                //     }
+                //
+                // }
+                //
+                // //if small amount of cards to practice add randomly
+                // //todo change to number of cards
+                //
+                // // >90 -> 30
+                // //  -> min 10
+                // if (deck.cards.length <= 10) {
+                //
+                //     let min = 4;
+                //     if (0.3 * deck.cards.length >= 4) {
+                //         min = 0.3 * deck.cards.length;
+                //     }
+                //     if (res.length < min) {
+                //
+                //         while (res.length < min) {
+                //             let index = Math.floor(Math.random() * notInRes.length);
+                //             let removed = notInRes.splice(index, 1);
+                //             res.push(removed[0])
+                //         }
+                //     }
+                // } else {
+                //     if (practiceDecksAmount > deck.cards.length) {
+                //         if (res.length <= deck.cards.length) {
+                //             console.log("ldcdkmc")
+                //             while (res.length <= deck.cards.length) {
+                //                 let index = Math.floor(Math.random() * notInRes.length);
+                //                 let removed = notInRes.splice(index, 1);
+                //                 res.push(removed[0])
+                //             }
+                //         }
+                //         if (res.length > deck.cards.length) {
+                //             while (res.length > deck.cards.length) {
+                //                 let index = Math.floor(Math.random() * notInRes.length);
+                //                 let removed = res.splice(index, 1);
+                //                 notInRes.push(removed[0])
+                //             }
+                //         }
+                //     } else {
+                //         if (res.length <= practiceDecksAmount) {
+                //             console.log("ldcdkmc")
+                //             while (res.length <= practiceDecksAmount) {
+                //                 let index = Math.floor(Math.random() * notInRes.length);
+                //
+                //                 let removed = notInRes.splice(index, 1);
+                //                 res.push(removed[0])
+                //             }
+                //         }
+                //         if (res.length > practiceDecksAmount) {
+                //             while (res.length > practiceDecksAmount) {
+                //                 let index = Math.floor(Math.random() * notInRes.length);
+                //                 let removed = res.splice(index, 1);
+                //                 notInRes.push(removed[0])
+                //             }
+                //         }
+                //     }
+                // }
+
+
+                let r = res
+
+                navigation.navigate("TestingCards", {
+                    deck: deck,
+                    cardsData: r,
+                    notInRes: notInRes
+                });
+                // console.log("r"+JSON.stringify(r))
+                // console.log("notInRes"+JSON.stringify(notInRes))
+            }
+        }
+    }
+
+    const chooseSpecial = () => {
+
+    }
+
     const practiceSpecialDeck = async () => {
         if (cardsData.length == 0) {
         } else {
@@ -214,39 +394,40 @@ const MyDeckScreen = ({route, navigation}) => {
                     }
                 }
             } else {
-               if (practiceDecksAmount > deck.cards.length){
-                   if (res.length <= deck.cards.length ) {
-                       console.log("ldcdkmc")
-                       while (res.length <= deck.cards.length) {
-                           let index = Math.floor(Math.random() * notInRes.length);
-                           let removed = notInRes.splice(index, 1);
-                           res.push(removed[0])
-                       }
-                   }
-                   if (res.length > deck.cards.length) {
-                       while (res.length > deck.cards.length ) {
-                           let index = Math.floor(Math.random() * notInRes.length);
-                           let removed = res.splice(index, 1);
-                           notInRes.push(removed[0])
-                       }
-                   }
-               }else{
-                if (res.length <= practiceDecksAmount ) {
-                    console.log("ldcdkmc")
-                    while (res.length <= practiceDecksAmount) {
-                        let index = Math.floor(Math.random() * notInRes.length);
-                        let removed = notInRes.splice(index, 1);
-                        res.push(removed[0])
+                if (practiceDecksAmount > deck.cards.length) {
+                    if (res.length <= deck.cards.length) {
+                        console.log("ldcdkmc")
+                        while (res.length <= deck.cards.length) {
+                            let index = Math.floor(Math.random() * notInRes.length);
+                            let removed = notInRes.splice(index, 1);
+                            res.push(removed[0])
+                        }
+                    }
+                    if (res.length > deck.cards.length) {
+                        while (res.length > deck.cards.length) {
+                            let index = Math.floor(Math.random() * notInRes.length);
+                            let removed = res.splice(index, 1);
+                            notInRes.push(removed[0])
+                        }
+                    }
+                } else {
+                    if (res.length <= practiceDecksAmount) {
+                        console.log("ldcdkmc")
+                        while (res.length <= practiceDecksAmount) {
+                            let index = Math.floor(Math.random() * notInRes.length);
+                            let removed = notInRes.splice(index, 1);
+                            res.push(removed[0])
+                        }
+                    }
+                    if (res.length > practiceDecksAmount) {
+                        while (res.length > practiceDecksAmount) {
+                            let index = Math.floor(Math.random() * notInRes.length);
+                            let removed = res.splice(index, 1);
+                            notInRes.push(removed[0])
+                        }
                     }
                 }
-                if (res.length > practiceDecksAmount) {
-                    while (res.length > practiceDecksAmount ) {
-                        let index = Math.floor(Math.random() * notInRes.length);
-                        let removed = res.splice(index, 1);
-                        notInRes.push(removed[0])
-                    }
-                }
-            }}
+            }
 
 
             let r = res
@@ -267,46 +448,46 @@ const MyDeckScreen = ({route, navigation}) => {
         } else {
             console.log("cardsData" + cardsData)
 
-          //   let cardsArr = []
-          //
-          // let frI = null;
-          //   let bI = null;
-          //   for (let i = 0; i < cardsData.length; i++) {
-          //
-          //       if(cardsData[i].frontImage) {
-          //           let imageRef = firebase.storage().ref('/' +cardsData[i].frontImage);
-          //           imageRef
-          //               .getDownloadURL()
-          //               .then((url) => {
-          //                   //from url you can fetched the uploaded image easily
-          //                   frI= url
-          //               })
-          //               .catch((e) => console.log('getting downloadURL of image error => ', e));
-          //       }
-          //       if(cardsData[i].backImage) {
-          //           let imageRef = firebase.storage().ref('/' +cardsData[i].backImage);
-          //           imageRef
-          //               .getDownloadURL()
-          //               .then((url) => {
-          //                   //from url you can fetched the uploaded image easily
-          //                   bI = url
-          //               })
-          //               .catch((e) => console.log('getting downloadURL of image error => ', e));
-          //       }
-          //       let card = {
-          //           front: cardsData[i].front,
-          //           frontImage: cardsData[i].frontImage,
-          //           frontUrl:frI,
-          //           back: cardsData[i].back,
-          //           backImage: cardsData[i].backImage,
-          //           backUrl:bI,
-          //           learned: null,
-          //           box: 1,
-          //           lastSeen: Date.now()
-          //       }
-          //       cardsArr.push(card)
-          //
-          //   }
+            //   let cardsArr = []
+            //
+            // let frI = null;
+            //   let bI = null;
+            //   for (let i = 0; i < cardsData.length; i++) {
+            //
+            //       if(cardsData[i].frontImage) {
+            //           let imageRef = firebase.storage().ref('/' +cardsData[i].frontImage);
+            //           imageRef
+            //               .getDownloadURL()
+            //               .then((url) => {
+            //                   //from url you can fetched the uploaded image easily
+            //                   frI= url
+            //               })
+            //               .catch((e) => console.log('getting downloadURL of image error => ', e));
+            //       }
+            //       if(cardsData[i].backImage) {
+            //           let imageRef = firebase.storage().ref('/' +cardsData[i].backImage);
+            //           imageRef
+            //               .getDownloadURL()
+            //               .then((url) => {
+            //                   //from url you can fetched the uploaded image easily
+            //                   bI = url
+            //               })
+            //               .catch((e) => console.log('getting downloadURL of image error => ', e));
+            //       }
+            //       let card = {
+            //           front: cardsData[i].front,
+            //           frontImage: cardsData[i].frontImage,
+            //           frontUrl:frI,
+            //           back: cardsData[i].back,
+            //           backImage: cardsData[i].backImage,
+            //           backUrl:bI,
+            //           learned: null,
+            //           box: 1,
+            //           lastSeen: Date.now()
+            //       }
+            //       cardsArr.push(card)
+            //
+            //   }
             navigation.navigate("PracticeCard", {
                 deck: deck,
                 cardsData: cardsData,
@@ -468,11 +649,19 @@ const MyDeckScreen = ({route, navigation}) => {
             </SafeAreaView>
             <TouchableOpacity
                 style={styles.buttonAdd}
+                onPress={() => testDecks()}
+            >
+                <Text style={styles.text}> Test </Text>
+
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.buttonAdd}
                 onPress={() => practiceSpecialDeck()}
             >
                 <Text style={styles.text}> Practice </Text>
 
             </TouchableOpacity>
+
             <TouchableOpacity
                 style={styles.buttonAdd}
                 onPress={() => practiceDeck()}

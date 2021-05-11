@@ -19,6 +19,7 @@ import EditCollectionScreen from "./screens/EditCollectionScreen";
 import Ionicons from "react-native-vector-icons";
 import {StyleSheet} from "react-native";
 import PracticeSpecialScreen from "./screens/PracticeSpecialScreen";
+import TestingCardsScreen from "./screens/TestingCardsScreen";
 
 const Stack = createStackNavigator();
 
@@ -68,6 +69,8 @@ export default function App() {
                               options={{headerTitle: "Edit"}}/>
                 <Stack.Screen name='PracticeSpecial' component={PracticeSpecialScreen}
                               options={{headerTitle: "Practice"}}/>
+                <Stack.Screen name='TestingCards' component={TestingCardsScreen}
+                              options={{headerTitle: "Test"}}/>
             </Stack.Navigator>
         </NavigationContainer>
 
