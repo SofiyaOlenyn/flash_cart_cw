@@ -22,6 +22,7 @@ import PracticeSpecialScreen from "./screens/PracticeSpecialScreen";
 import TestingCardsScreen from "./screens/TestingCardsScreen";
 import TestingByWritingCardsScreen from "./screens/TestingByWritingCardsScreen";
 import AboutUsScreen from "./screens/AboutUsScreen";
+import EditUserScreen from "./screens/EditUserScreen";
 
 const Stack = createStackNavigator();
 
@@ -77,6 +78,9 @@ export default function App() {
                               options={{headerTitle: "Writing"}}/>
                 <Stack.Screen name='AboutUs' component={AboutUsScreen}
                               options={{headerTitle: "About Us"}}/>
+                <Stack.Screen name='EditUser' component={EditUserScreen}
+                              options={{headerTitle: "Edit"}}/>
+
             </Stack.Navigator>
         </NavigationContainer>
 

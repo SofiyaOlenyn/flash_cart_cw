@@ -21,16 +21,35 @@ const HeaderForMyProfile = () => {
     }
 
     const checkIfCurrentUserFollow = async () => {
+
         const user = auth().currentUser;
+        if(user.photoURL== null || user.photoURL==""){
+            setUserImg("https://cdn.iconscout.com/icon/free/png-256/user-1648810-1401302.png")
+        }else{
+            let imageRef = firebase.storage().ref('/' +user.photoURL);
+            imageRef
+                .getDownloadURL()
+                .then((url) => {
+                    //from url you can fetched the uploaded image easily
+                    setUserImg(url)
+
+                })
+                .catch((e) => console.log('getting downloadURL of image error => ', e));
+        }
         console.log(user.displayName);
         setUserName(user.displayName)
         setUserEmail(user.email)
-        setUserImg(user.photoURL)
+
     }
     const aboutUs =  () => {
         navigation.navigate("AboutUs");
 
     }
+    const editProfile =  () => {
+        navigation.navigate("EditUser");
+
+    }
+
     const signOutUser = async function () {
 
         try {
@@ -43,7 +62,7 @@ const HeaderForMyProfile = () => {
 
     useEffect(() => {
         setRefreshing(true);
-        wait(500).then(() => setRefreshing(false));
+        wait(10).then(() => setRefreshing(false));
         checkIfCurrentUserFollow().then(r => {
         });
 
@@ -60,6 +79,10 @@ const HeaderForMyProfile = () => {
 
 
             <View style={styles.container}>
+                <TouchableOpacity
+                   // style={styles.buttonLogOut}
+                    onPress={() => checkIfCurrentUserFollow()}
+                >
                 <Avatar
                     size={"medium"}
                     rounded
@@ -67,12 +90,20 @@ const HeaderForMyProfile = () => {
                         uri: userImg,
                     }}
                 />
+
+                </TouchableOpacity>
                 <View>
                     <Text style={styles.name}>{userName}</Text>
                     <Text style={styles.username}>{userEmail}</Text>
                 </View>
             </View>
+            <TouchableOpacity
+                style={styles.buttonLogOut}
+                onPress={() => editProfile()}
+            >
+                <Text style={styles.text}> Edit </Text>
 
+            </TouchableOpacity>
             <TouchableOpacity
                 style={styles.buttonLogOut}
                 onPress={() => signOutUser()}
