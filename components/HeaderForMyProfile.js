@@ -27,17 +27,12 @@ const HeaderForMyProfile = () => {
         setUserEmail(user.email)
         setUserImg(user.photoURL)
     }
+    const aboutUs =  () => {
+        navigation.navigate("AboutUs");
 
+    }
     const signOutUser = async function () {
-        // let user = firebase.auth().currentUser;
-        //
-        // user.updateProfile({
-        //     photoURL: "https://doggy-boom.ru/images/pomeran-shpic-2.jpg"
-        // }).then(function() {
-        //     // Update successful.
-        // }).catch(function(error) {
-        //     // An error happened.
-        // });
+
         try {
             await firebase.auth().signOut();
             navigation.replace("Login");
@@ -85,6 +80,13 @@ const HeaderForMyProfile = () => {
                 <Text style={styles.text}> Log Out </Text>
 
             </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.buttonAboutUs}
+                onPress={() => aboutUs()}
+            >
+                <Text style={styles.text}> About us </Text>
+
+            </TouchableOpacity>
 
         </View>
 
@@ -114,6 +116,17 @@ const styles = StyleSheet.create({
         height: 36,
         borderRadius: 100,
         backgroundColor: "#A3C6C4",
+    },
+    buttonAboutUs:{
+        alignContent: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginLeft: 60,
+        width: 300,
+        marginTop: 30,
+        height: 36,
+        borderRadius: 100,
+        backgroundColor: "white",
     },
     text: {
         fontSize: 20,

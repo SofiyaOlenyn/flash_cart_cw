@@ -21,6 +21,7 @@ import {StyleSheet} from "react-native";
 import PracticeSpecialScreen from "./screens/PracticeSpecialScreen";
 import TestingCardsScreen from "./screens/TestingCardsScreen";
 import TestingByWritingCardsScreen from "./screens/TestingByWritingCardsScreen";
+import AboutUsScreen from "./screens/AboutUsScreen";
 
 const Stack = createStackNavigator();
 
@@ -74,6 +75,8 @@ export default function App() {
                               options={{headerTitle: "Quiz"}}/>
                 <Stack.Screen name='TestingByWritingCards' component={TestingByWritingCardsScreen}
                               options={{headerTitle: "Writing"}}/>
+                <Stack.Screen name='AboutUs' component={AboutUsScreen}
+                              options={{headerTitle: "About Us"}}/>
             </Stack.Navigator>
         </NavigationContainer>
 

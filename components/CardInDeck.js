@@ -53,19 +53,19 @@ const CardInDeck = ({card, deck}) => {
                 style={styles.container}>
                 < SafeAreaView
 
-                    // style={
+                    style={styles.containerText}
                     //     card.imageUrlFront == "" ?
                     //         (card.imageUrlBack = "" ? styles.containerText : styles.imageOne) :
                     //         (card.imageUrlBack = "" ? styles.imageOne : styles.imageTwo)
                     // }
                 >
                     <Text style={styles.frontText}> {card.front}</Text>
-                    <Image
-                        source={{uri: imageUrlFront}}
-                        style={
-                            card.imageUrlFront == "" ? styles.withoutImage : styles.image
-                        }
-                    />
+                    {/*<Image*/}
+                    {/*    source={{uri: imageUrlFront}}*/}
+                    {/*    style={*/}
+                    {/*        card.imageUrlFront == "" ? styles.withoutImage : styles.image*/}
+                    {/*    }*/}
+                    {/*/>*/}
                     <Separator/>
                     <Text>{card.back} </Text>
                     <Image
@@ -183,13 +183,13 @@ export default CardInDeck;
 
 const styles = StyleSheet.create({
         frontText: {
-
             fontWeight: "bold",
             marginHorizontal: 20,
-            marginBottom: 7,
+          //  marginBottom: 7,
         },
         container: {
             flex: 1,
+            paddingHorizontal: 5,
             padding: 10,
             borderRadius: 35,
             borderColor: "#354649",
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
         },
         containerText: {
 
-            height: 90,
+          // height: 30,
         },
         inputContainer: {
             width: 300,
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
         ,
         buttonsEdit1: {
              position:"absolute",
-             top:-150,
+             top: 0,
              right:0,
             marginHorizontal: 5,
             marginBottom: 10,
