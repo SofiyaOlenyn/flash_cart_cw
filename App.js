@@ -20,6 +20,7 @@ import Ionicons from "react-native-vector-icons";
 import {StyleSheet} from "react-native";
 import PracticeSpecialScreen from "./screens/PracticeSpecialScreen";
 import TestingCardsScreen from "./screens/TestingCardsScreen";
+import TestingByWritingCardsScreen from "./screens/TestingByWritingCardsScreen";
 
 const Stack = createStackNavigator();
 
@@ -70,7 +71,9 @@ export default function App() {
                 <Stack.Screen name='PracticeSpecial' component={PracticeSpecialScreen}
                               options={{headerTitle: "Practice"}}/>
                 <Stack.Screen name='TestingCards' component={TestingCardsScreen}
-                              options={{headerTitle: "Test"}}/>
+                              options={{headerTitle: "Quiz"}}/>
+                <Stack.Screen name='TestingByWritingCards' component={TestingByWritingCardsScreen}
+                              options={{headerTitle: "Writing"}}/>
             </Stack.Navigator>
         </NavigationContainer>
 

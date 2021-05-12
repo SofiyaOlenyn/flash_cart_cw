@@ -93,6 +93,8 @@ const TestingCardsScreen = ({route, navigation}) => {
             });
 
         } else {
+            setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Vector_Loading.svg/1024px-Vector_Loading.svg.png")
+
             if (cardsData[i + 1].backImage) {
                 let imageRef = firebase.storage().ref('/' + cardsData[i + 1].backImage);
                 imageRef
@@ -107,23 +109,23 @@ const TestingCardsScreen = ({route, navigation}) => {
                 setImage("")
             }
 
-            if (cardsData[i + 1].frontImage) {
-                let imageRef = firebase.storage().ref('/' + cardsData[i + 1].frontImage);
-                imageRef
-                    .getDownloadURL()
-                    .then((url) => {
-                        //from url you can fetched the uploaded image easily
-                        setImageUrlFront(url)
-                        setImage(url);
-                    })
-                    .catch((e) => console.log('getting downloadURL of image error => ', e));
-            }
+            // if (cardsData[i + 1].frontImage) {
+            //     let imageRef = firebase.storage().ref('/' + cardsData[i + 1].frontImage);
+            //     imageRef
+            //         .getDownloadURL()
+            //         .then((url) => {
+            //             //from url you can fetched the uploaded image easily
+            //             setImageUrlFront(url)
+            //             setImage(url);
+            //         })
+            //         .catch((e) => console.log('getting downloadURL of image error => ', e));
+            // }
             setText(cardsData[i + 1].back)
             setImage(imageUrlBack);
             let k = i + 1
             setI(k)
             generateAnswers();
-            setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Vector_Loading.svg/1024px-Vector_Loading.svg.png")
+            // setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Vector_Loading.svg/1024px-Vector_Loading.svg.png")
 
             setAnswered1(false);
             setAnswered2(false);
