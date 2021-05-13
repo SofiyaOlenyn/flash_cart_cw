@@ -54,12 +54,12 @@ const Card= ({card, cards}) => {
                     // }
                 >
                     <Text style={styles.frontText}> {card.front}</Text>
-                    <Image
-                        source={{uri: imageUrlFront}}
-                        style={
-                            card.imageUrlFront == "" ? styles.withoutImage : styles.image
-                        }
-                    />
+                    {/*<Image*/}
+                    {/*    source={{uri: imageUrlFront}}*/}
+                    {/*    style={*/}
+                    {/*        card.imageUrlFront == "" ? styles.withoutImage : styles.image*/}
+                    {/*    }*/}
+                    {/*/>*/}
                     <Separator/>
                     <Text>{card.back} </Text>
                     <Image

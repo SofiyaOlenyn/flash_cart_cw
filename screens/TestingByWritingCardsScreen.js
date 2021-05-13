@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         alignItems: 'center',
         justifyContent: 'center',
-        margin: 10,
+        margin: 2,
         marginHorizontal: 30,
         borderRadius: 10,
         backgroundColor: "#6C7A89",
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
         // alignContent: "center",
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 10,
+        padding: 5,
         borderRadius: 35,
         borderColor: "#354649",
         borderWidth: 1,
@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
         height: 190,
     },
     text: {
-        marginVertical: 10,
+        marginVertical: 2,
         fontWeight: "bold",
         alignSelf: 'center',
         justifyContent: 'center',
@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
     textAnswer: {
         fontWeight: "bold",
         marginLeft: 20,
-        marginBottom: 15
+        marginBottom: 5
         //alignSelf: 'center',
         // justifyContent: 'center',
     },
@@ -309,8 +309,8 @@ const styles = StyleSheet.create({
     }
     , image: {
         marginTop: 25,
-        width: 170,
-        height: 170,
+        width: 150,
+        height: 150,
     },
     withoutImage: {}
 })
