@@ -124,7 +124,7 @@ const TestingCardsScreen = ({route, navigation}) => {
             setImage(imageUrlBack);
             let k = i + 1
             setI(k)
-            generateAnswers();
+            generateAnswers(k);
             // setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Vector_Loading.svg/1024px-Vector_Loading.svg.png")
 
             setAnswered1(false);
@@ -254,9 +254,9 @@ const TestingCardsScreen = ({route, navigation}) => {
             }
         }
     }
-    const generateAnswers = () => {
+    const generateAnswers = (k) => {
 
-        let arr = shuffle(makeRandom());
+        let arr = shuffle(makeRandom(k));
         setAnswer1(arr[0])
         setAnswer2(arr[1])
         setAnswer3(arr[2])
@@ -264,14 +264,14 @@ const TestingCardsScreen = ({route, navigation}) => {
 
     }
 
-    function makeRandom() {
+    function makeRandom(k) {
         let answr = [];
         //
-        answr.push(cardsData[i].front);
+        answr.push(cardsData[k].front);
         // answr.push(cardsData[1].front);
         // answr.push(cardsData[2].front);
         // answr.push(cardsData[3].front);
-        let k = 0;
+       // let k= 0;
 
 
         let index1 = Math.floor(Math.random() * cardsData.length);
@@ -337,7 +337,7 @@ const TestingCardsScreen = ({route, navigation}) => {
             setText(cardsData[i].back)
             console.log(cardsData[i].front)
             setImage(imageUrlBack);
-            generateAnswers();
+            generateAnswers(i);
 
 
         });
